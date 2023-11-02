@@ -10,7 +10,7 @@ import {
 
 const HomePage = () => {
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div className="bg-white min-h-screen flex items-center justify-center">
       <div className="w-full max-w-screen-xl p-4 md:p-8 shadow-lg rounded-lg text-center text-[#e74c3c] custom-bg-color">
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#e74c3c] mb-4 font-poppins">
           Typing Practice for All
@@ -30,7 +30,7 @@ const HomePage = () => {
             <div
               key={index}
               className="group relative transform transition-transform hover:scale-105 hover:shadow-md">
-              <div className="bg-[#dcdde1] p-6 rounded-lg text-center transition-transform transform hover:scale-110 hover:translate-y-2 flex flex-col items-center">
+              <div className="bg-gray-200 p-6 rounded-lg text-center transition-transform transform hover:scale-110 hover:translate-y-2 flex flex-col items-center">
                 {button.icon}
                 <p className="font-semibold text-base lg:text-lg text-[#2f3640] font-poppins">
                   {button.text}
