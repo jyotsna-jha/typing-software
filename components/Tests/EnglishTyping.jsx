@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
 import { FaHourglassStart, FaRedo } from "react-icons/fa";
 
@@ -11,7 +11,8 @@ const EnglishTyping = () => {
   const [reset, setReset] = useState(false);
 
   const generateRandomText = () => {
-    const randomText = "Your sample text here...This is a sample text for your typing practice. Feel free to start typing and improve your English skills. You can change this text to anything you like. Just have fun practicing! . Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills.. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills.This is a sample text for your typing practice. Feel free to start typing and improve your English skills. You can change this text to anything you like. Just have fun practicing! . Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills.. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills";
+    const randomText =
+      "Your sample text here...This is a sample text for your typing practice. Feel free to start typing and improve your English skills. You can change this text to anything you like. Just have fun practicing! . Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills.. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills.This is a sample text for your typing practice. Feel free to start typing and improve your English skills. You can change this text to anything you like. Just have fun practicing! . Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills.. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills. Feel free to start typing and improve your English skills";
     setRandomText(randomText);
   };
 
@@ -80,7 +81,7 @@ const EnglishTyping = () => {
         <FaHourglassStart className="mr-2 text-xl" />
         Timer: {timer} seconds
       </div>
-    
+
       <div className="bg-white border border-gray-300 rounded p-4 mb-4 h-60 overflow-y-auto">
         {getHighlightedText()}
       </div>
@@ -93,9 +94,9 @@ const EnglishTyping = () => {
           onChange={handleInputChange}
         ></textarea>
       </div>
-       <button onClick={handleReset} className="reset-button">
+      <button onClick={handleReset} className="reset-button">
         <FaRedo className="text-red-500 text-2xl" />
-      </button> 
+      </button>
     </div>
   );
 };

@@ -13,7 +13,7 @@ function Navbar() {
           <img src="/assets/logo.png" alt="Logo" className="h-20 w-auto" />
         </a>
         <div className="hidden md:flex md:gap-8">
-          <a href="#" className="hover:text-[#e74c3c] py-4">
+          <a href="/" className="hover:text-[#e74c3c] py-4">
             Home
           </a>
           <div
@@ -22,7 +22,7 @@ function Navbar() {
             onMouseLeave={() => setActiveDropdown("")}
           >
             <a href="#" className="flex items-center hover:text-[#e74c3c] py-4">
-              Typing{" "}
+              Typing Test{" "}
               <span className="text-[10px] ml-2">
                 {activeDropdown == "typing" ? "▲" : "▼"}
               </span>
@@ -32,23 +32,20 @@ function Navbar() {
                 activeDropdown === "typing" ? "block" : "hidden"
               }`}
             >
-              <a
-                href="#"
-                className="block border-b-2 py-1 border-[#e74c3c] hover:text-[#e74c3c]"
-              >
+              <a href="#" className="block  py-1  hover:text-[#e74c3c]">
                 <span className="text-xs mr-2 bold">→</span>
-                Hindi Typing
+                Hindi Typing Test
               </a>
               <a
-                href="#"
-                className="block border-b-2 py-1 border-[#e74c3c] hover:text-[#e74c3c]"
+                href="/englishtypingtest"
+                className="block  py-1  hover:text-[#e74c3c]"
               >
                 <span className="text-xs mr-2 bold">→</span>
-                English Typing
+                English Typing Test
               </a>
               <a href="#" className="block py-1">
                 <span className="text-xs mr-2 bold">→</span>
-                Mangla Typing
+                Mangla Typing Test
               </a>
             </div>
           </div>
@@ -68,10 +65,7 @@ function Navbar() {
                 activeDropdown === "translator" ? "block" : "hidden"
               }`}
             >
-              <a
-                href="#"
-                className="block border-b-2 py-1 border-[#e74c3c] hover:text-[#e74c3c]"
-              >
+              <a href="#" className="block py-1  hover:text-[#e74c3c]">
                 <span className="text-xs mr-2 bold">→</span>
                 Hindi to English
               </a>
@@ -118,15 +112,18 @@ function Navbar() {
               <div className="py-2 px-4 bg-white text-gray-900">
                 <a href="#" className="block py-1 hover:text-[#e74c3c]">
                   <span className="text-xs mr-2 bold">→</span>
-                  Hindi Typing
+                  Hindi Typing Test
+                </a>
+                <a
+                  href="/englishtypingtest"
+                  className="block py-1 hover:text-[#e74c3c]"
+                >
+                  <span className="text-xs mr-2 bold">→</span>
+                  English Typing Test
                 </a>
                 <a href="#" className="block py-1 hover:text-[#e74c3c]">
                   <span className="text-xs mr-2 bold">→</span>
-                  English Typing
-                </a>
-                <a href="#" className="block py-1 hover:text-[#e74c3c]">
-                  <span className="text-xs mr-2 bold">→</span>
-                  Mangla Typing
+                  Mangla Typing Test
                 </a>
               </div>
             )}
