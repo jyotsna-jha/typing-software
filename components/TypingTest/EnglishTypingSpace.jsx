@@ -96,6 +96,7 @@ const EnglishTypingSpace = ({ onTestComplete }) => {
           value={userInput}
           onChange={handleInputChange}
         />
+        
       </div>
     </div>
   );
