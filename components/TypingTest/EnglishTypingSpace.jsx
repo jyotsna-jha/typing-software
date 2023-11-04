@@ -88,7 +88,7 @@ const EnglishTypingSpace = ({ onTestComplete }) => {
         Timer: {timeLeft} seconds
       </div>
       <TextHighlighter sampleText={sampleText} userText={userInput} />
-      <div className="p-4">
+      <div>
         <textarea
           className="w-full p-4 border-2 border-gray-300 rounded focus:outline-none focus:border-red-300 focus:border-4 transition"
           rows="10"
@@ -96,7 +96,6 @@ const EnglishTypingSpace = ({ onTestComplete }) => {
           value={userInput}
           onChange={handleInputChange}
         />
-        
       </div>
     </div>
   );

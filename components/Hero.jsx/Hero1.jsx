@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   FaKeyboard,
   FaLanguage,
@@ -6,7 +6,7 @@ import {
   FaTranslate,
   FaTasks,
   FaDownload,
-} from 'react-icons/fa';
+} from "react-icons/fa";
 
 const HomePage = () => {
   return (
@@ -16,31 +16,29 @@ const HomePage = () => {
           Typing Practice for All
         </h1>
         <p className="text-sm md:text-base lg:text-lg text-[#2f3640] mb-8 font-poppins">
-          Improve your typing skills, speed, and accuracy in multiple languages with our tests. Test your Hindi, English, or Unicode typing abilities. Explore translation services, MCQ tests, and valuable resources.
+          Improve your typing skills, speed, and accuracy in multiple languages
+          with our tests. Test your Hindi, English, or Unicode typing abilities.
+          Explore translation services, MCQ tests, and valuable resources.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
-            { icon: <FaKeyboard size={30} />, text: 'Hindi Typing Test' },
-            { icon: <FaKeyboard size={30} />, text: 'English Typing Test' },
-            { icon: <FaKeyboard size={30} />, text: 'Unicode Typing Test' },
-            { icon: <FaLanguage size={30} />, text: 'Translator' },
-            { icon: <FaTasks size={30} />, text: 'MCQ Tests' },
-            { icon: <FaDownload size={30} />, text: 'Downloads' },
+            { icon: <FaKeyboard size={30} />, text: "Hindi Typing Test" },
+            { icon: <FaKeyboard size={30} />, text: "English Typing Test" },
+            { icon: <FaKeyboard size={30} />, text: "Unicode Typing Test" },
+            { icon: <FaLanguage size={30} />, text: "Translator" },
+            { icon: <FaTasks size={30} />, text: "MCQ Tests" },
+            { icon: <FaDownload size={30} />, text: "Downloads" },
           ].map((button, index) => (
             <div
               key={index}
-              className="group relative transform transition-transform hover:scale-105 hover:shadow-md">
-              <div className="bg-gray-200 p-6 rounded-lg text-center transition-transform transform hover:scale-110 hover:translate-y-2 flex flex-col items-center">
+              className="group relative transform transition-transform hover:scale-105"
+            >
+              <div className="bg-gray-200 p-6 rounded-lg text-center transition-transform transform  flex flex-col items-center hover:shadow-md">
                 {button.icon}
                 <p className="font-semibold text-base lg:text-lg text-[#2f3640] font-poppins">
                   {button.text}
                 </p>
               </div>
-             {/*  <div className="hidden group-hover:block absolute top-0 left-0 w-full h-full bg-opacity-75 bg-[#dcdde1] transition-opacity opacity-0 hover:opacity-100">
-                <p className="h-full flex items-center justify-center text-sm md:text-base lg:text-lg text-[#2f3640] font-poppins">
-                  {button.text}
-                </p>
-              </div> */}
             </div>
           ))}
         </div>
