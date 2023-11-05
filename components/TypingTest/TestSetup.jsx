@@ -1,14 +1,12 @@
-"use client";
 import React, { useState } from "react";
 
-const TypingTestForm = () => {
-  const [username, setUsername] = useState("");
-  const [duration, setDuration] = useState(1);
-  const [difficulty, setDifficulty] = useState("");
-  const [difficulties, setDifficulties] = useState(["Easy", "Medium", "Hard"]);
-
-  const handleStartTest = () => {
-    //logic to start the typing test
+const TestSetupForm = ({ onStartTest }) => {
+  const [userName, setUserName] = useState("");
+  const [duration, setDuration] = useState(60); // Default duration to 60 seconds
+  const [difficulty, setDifficulty] = useState("easy");
+  const handleStartTest = (e) => {
+    e.preventDefault();
+    onStartTest(duration, difficulty, userName); // Use the callback to pass the values to the parent component
   };
 
   return (
@@ -16,7 +14,7 @@ const TypingTestForm = () => {
       <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center text-[#222f3e]">
         English Test Setup
       </h2>
-      <form>
+      <form onSubmit={handleStartTest}>
         <div className="mb-4">
           <label
             htmlFor="username"
@@ -27,9 +25,10 @@ const TypingTestForm = () => {
           <input
             type="text"
             id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
             className="w-full border border-gray-300 rounded p-2 text-sm sm:text-base"
+            required
           />
         </div>
 
@@ -45,11 +44,11 @@ const TypingTestForm = () => {
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
             className="w-full border border-gray-300 rounded p-2 text-sm sm:text-base text-[#8395a7]"
+            required
           >
-            <option value={1}>1 minute</option>
-            <option value={5}>5 minutes</option>
-            <option value={10}>10 minutes</option>
-            <option value={20}>20 minutes</option>
+            <option value="30">30 seconds</option>
+            <option value="60">1 minute</option>
+            <option value="180">3 minutes</option>
           </select>
         </div>
 
@@ -57,29 +56,57 @@ const TypingTestForm = () => {
           <label className="block font-medium text-[#222f3e]">
             Select Difficulty Level:
           </label>
-          {difficulties.map((level) => (
-            <div key={level} className="flex items-center">
+          <div className="flex flex-col">
+            <label
+              htmlFor="easy"
+              className="text-[#8395a7] text-sm sm:text-base"
+            >
               <input
                 type="radio"
-                id={level}
-                value={level}
-                checked={difficulty === level}
-                onChange={() => setDifficulty(level)}
+                id="easy"
+                name="difficulty"
+                value="easy"
+                checked={difficulty === "easy"}
+                onChange={() => setDifficulty("easy")}
                 className="mr-2"
               />
-              <label
-                htmlFor={level}
-                className="text-[#8395a7] text-sm sm:text-base"
-              >
-                {level}
-              </label>
-            </div>
-          ))}
+              Easy
+            </label>
+            <label
+              htmlFor="medium"
+              className="text-[#8395a7] text-sm sm:text-base"
+            >
+              <input
+                type="radio"
+                id="medium"
+                name="difficulty"
+                value="medium"
+                checked={difficulty === "medium"}
+                onChange={() => setDifficulty("medium")}
+                className="mr-2"
+              />
+              Medium
+            </label>
+            <label
+              htmlFor="hard"
+              className="text-[#8395a7] text-sm sm:text-base"
+            >
+              <input
+                type="radio"
+                id="hard"
+                name="difficulty"
+                value="hard"
+                checked={difficulty === "hard"}
+                onChange={() => setDifficulty("hard")}
+                className="mr-2"
+              />
+              Hard
+            </label>
+          </div>
         </div>
 
         <button
-          type="button"
-          onClick={handleStartTest}
+          type="submit"
           className="bg-red-400 text-white rounded p-4 cursor-pointer w-full hover:scale-105 transform transition-transform duration-200"
         >
           Start Test
@@ -89,4 +116,4 @@ const TypingTestForm = () => {
   );
 };
 
-export default TypingTestForm;
+export default TestSetupForm;
