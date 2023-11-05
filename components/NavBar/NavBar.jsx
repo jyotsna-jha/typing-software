@@ -9,7 +9,7 @@ function Navbar() {
   return (
     <nav className="md:bg-gray-900 p-4 md:text-white md:border-0 text-md font-[Poppins] bg-white text-gray-900">
       <div className="container mx-auto flex justify-between items-center">
-        <a href="#" className="text-xl font-bold">
+        <a href="/" className="text-xl font-bold">
           <img src="/assets/logo.png" alt="Logo" className="h-20 w-auto" />
         </a>
         <div className="hidden md:flex md:gap-8">

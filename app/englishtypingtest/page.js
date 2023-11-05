@@ -1,12 +1,31 @@
 "use client";
 import React, { useState } from "react";
+import TestSetupForm from "@/components/TypingTest/TestSetup";
 import EnglishTypingSpace from "@/components/TypingTest/EnglishTypingSpace";
 import TestResults from "@/components/TypingTest/TestResults";
-
+import texts from "@/data/englishtext.js";
 export default function TypingTest() {
+  const [startTest, setStartTest] = useState(false);
   const [timeOver, setTimeOver] = useState(false);
   const [stats, setStats] = useState({});
-
+  const [testText, setTestText] = useState("");
+  const [duration, setDuration] = useState(60);
+  const [userName, setUserName] = useState("");
+  const handleStartTest = (duration, difficulty, userName) => {
+    const selectedTexts = texts[difficulty];
+    if (Array.isArray(selectedTexts)) {
+      const randomIndex = Math.floor(Math.random() * selectedTexts.length);
+      setTestText(selectedTexts[randomIndex]);
+      setDuration(duration);
+      setUserName(userName);
+      setStartTest(true);
+    } else {
+      console.error(
+        "Selected texts are not available for difficulty:",
+        difficulty
+      );
+    }
+  };
   const handleTestComplete = (
     totalWords,
     correctWordsCount,
@@ -16,6 +35,7 @@ export default function TypingTest() {
   ) => {
     setStats({ totalWords, correctWordsCount, accuracy, grossSpeed, netSpeed });
     setTimeOver(true);
+    setStartTest(false);
   };
 
   const retakeTest = () => {
@@ -23,12 +43,22 @@ export default function TypingTest() {
     setStats({});
   };
 
+  if (startTest) {
+    return (
+      <EnglishTypingSpace
+        sampleText={testText}
+        timeLimit={duration}
+        userName={userName}
+        onTestComplete={handleTestComplete}
+      />
+    );
+  }
   return (
     <>
       {timeOver ? (
         <TestResults {...stats} retakeTest={retakeTest} />
       ) : (
-        <EnglishTypingSpace onTestComplete={handleTestComplete} />
+        <TestSetupForm onStartTest={handleStartTest} />
       )}
     </>
   );

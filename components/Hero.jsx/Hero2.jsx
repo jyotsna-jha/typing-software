@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useRef } from "react";
 import lottie from "lottie-web";
 import Link from "next/link";
@@ -29,9 +29,13 @@ const Herosection = ({ title, subtitle }) => {
               {title}
             </h1>
             <p className="mt-2 sm:mt-4 md:mt-8 text-sm sm:text-base md:text-lg md:leading-relaxed sm:word-spacing-0.02 md:word-spacing-0.05 text-gray-600">
-              Type faster, type smarter with Anand Typing. Boost your typing skills through engaging lessons and challenges. Join us today and unleash your typing potential! Whether you're a beginner or looking to enhance your skills, Anand Typing is your key to typing excellence.
+              Type faster, type smarter with Anand Typing. Boost your typing
+              skills through engaging lessons and challenges. Join us today and
+              unleash your typing potential! Whether you're a beginner or
+              looking to enhance your skills, Anand Typing is your key to typing
+              excellence.
             </p>
-            <Link href="https://youtu.be/UMCdkk1Nf44?si=b4iPMhQXgDItMZdC" target="_blank">
+            <Link href="/englishtypingtest">
               <div className="mt-6">
                 <button className="text-white bg-red-400 hover:bg-red-500 px-4 py-2 rounded-md">
                   Tests
