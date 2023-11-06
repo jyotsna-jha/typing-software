@@ -11,9 +11,8 @@ const TestPage = () => {
           Typing Speed Calculation
         </h2>
         <p className="border-t pt-2 text-justify text-[#222f3e]">
-          The speed of the Typing Test is accurately determined using
-          well-established formulas. These formulas are widely recognized as the
-          standard methods for precisely calculating typing speed.
+          These formulas are widely recognized as the standard methods for
+          precisely calculating typing speed.
         </p>
 
         <h3 className="text-xl font-bold my-4 text-[#222f3e]">
