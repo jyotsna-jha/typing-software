@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import TestRules from "./TestRules";
+import TestPage from "./TestPage";
 
 const TestSetupForm = ({ onStartTest }) => {
   const [userName, setUserName] = useState("");
@@ -10,7 +12,8 @@ const TestSetupForm = ({ onStartTest }) => {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto bg-gray-200 rounded-lg mb-10 font-poppins">
+    <>
+    <div className="p-4 max-w-md mx-auto bg-gray-200 rounded-lg mb-10 font-poppins mt-10">
       <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center text-[#222f3e]">
         English Test Setup
       </h2>
@@ -112,7 +115,13 @@ const TestSetupForm = ({ onStartTest }) => {
           Start Test
         </button>
       </form>
+     
     </div>
+     <TestRules title={"Online English Typing Test"} text={"Experience a fast and highly precise typing speed evaluation tool tailored for the English language. Our test is meticulously designed to provide exceptional user satisfaction and top-notch performance. In today's global landscape, English stands as the paramount international language, given its predominant role on the world stage."}/>
+     <TestRules title={"How Does English Typing Test Work?"} text={"Within the designated time frame in the Typing Window Typing Tool, aim to type as many words as possible.Please note that the test is case-sensitive. The tool will calculate your typing speed in both GWPM (Gross Words Per Minute) and NWPM (Net Words Per Minute). Upon completing the test, you will receive a comprehensive performance certificate, allowing you to assess your own skills. This English Typing Assessment will provide insights into your typing speed [WPM], accuracy, the total number of words typed, and the number of correct words. The timer initiates as soon as you commence typing, and once the allotted time elapses, your overall performance summary will be available for self-evaluation."}/>
+     
+     <TestPage/>
+     </>
   );
 };
 
