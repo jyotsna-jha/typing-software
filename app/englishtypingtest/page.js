@@ -11,13 +11,15 @@ export default function TypingTest() {
   const [testText, setTestText] = useState("");
   const [duration, setDuration] = useState(60);
   const [userName, setUserName] = useState("");
-  const handleStartTest = (duration, difficulty, userName) => {
+  const [enableHighlight, setEnableHighlight] = useState(true);
+  const handleStartTest = (duration, difficulty, userName, enableHighlight) => {
     const selectedTexts = texts[difficulty];
     if (Array.isArray(selectedTexts)) {
       const randomIndex = Math.floor(Math.random() * selectedTexts.length);
       setTestText(selectedTexts[randomIndex]);
       setDuration(duration);
       setUserName(userName);
+      setEnableHighlight(enableHighlight);
       setStartTest(true);
     } else {
       console.error(
@@ -29,11 +31,25 @@ export default function TypingTest() {
   const handleTestComplete = (
     totalWords,
     correctWordsCount,
+    wrongWordsCount,
     accuracy,
     grossSpeed,
-    netSpeed
+    netSpeed,
+    correctWords,
+    wrongWords,
+    backspaceCount
   ) => {
-    setStats({ totalWords, correctWordsCount, accuracy, grossSpeed, netSpeed });
+    setStats({
+      totalWords,
+      correctWordsCount,
+      wrongWordsCount,
+      accuracy,
+      grossSpeed,
+      netSpeed,
+      correctWords,
+      wrongWords,
+      backspaceCount,
+    });
     setTimeOver(true);
     setStartTest(false);
   };
@@ -50,6 +66,7 @@ export default function TypingTest() {
         timeLimit={duration}
         userName={userName}
         onTestComplete={handleTestComplete}
+        enableHighlight={enableHighlight}
       />
     );
   }

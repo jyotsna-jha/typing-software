@@ -6,9 +6,10 @@ const TestSetupForm = ({ onStartTest }) => {
   const [userName, setUserName] = useState("");
   const [duration, setDuration] = useState(60); // Default duration to 60 seconds
   const [difficulty, setDifficulty] = useState("easy");
+  const [enableHighlight, setEnableHighlight] = useState(true);
   const handleStartTest = (e) => {
     e.preventDefault();
-    onStartTest(duration, difficulty, userName); // Use the callback to pass the values to the parent component
+    onStartTest(duration, difficulty, userName, enableHighlight); // Use the callback to pass the values to the parent component
   };
 
   return (
@@ -107,7 +108,21 @@ const TestSetupForm = ({ onStartTest }) => {
               </label>
             </div>
           </div>
-
+          <div className="mb-4">
+            <label
+              htmlFor="enableHighlight"
+              className="font-medium text-[#222f3e] flex items-center"
+            >
+              <input
+                type="checkbox"
+                id="enableHighlight"
+                checked={enableHighlight}
+                onChange={(e) => setEnableHighlight(e.target.checked)}
+                className="mr-2"
+              />
+              Enable Highlight
+            </label>
+          </div>
           <button
             type="submit"
             className="bg-red-400 text-white rounded p-4 cursor-pointer w-full hover:scale-105 transform transition-transform duration-200"

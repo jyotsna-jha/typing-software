@@ -8,12 +8,20 @@ const EnglishTypingSpace = ({
   timeLimit,
   onTestComplete,
   userName,
+  enableHighlight,
 }) => {
   const [userInput, setUserInput] = useState("");
   const [highlightedWordIndex, setHighlightedWordIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [hasStarted, setHasStarted] = useState(false);
   const words = sampleText.split(" ");
+  const [backspaceCount, setBackspaceCount] = useState(0);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Backspace") {
+      setBackspaceCount((prevCount) => prevCount + 1);
+    }
+  };
 
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
@@ -52,25 +60,37 @@ const EnglishTypingSpace = ({
   useEffect(() => {
     if (timeLeft === 0) {
       const userWords = userInput.trim().split(/\s+/);
-      const correctWords = userWords.filter((word, idx) => word === words[idx]);
+      let correctWords = [];
+      let wrongWords = [];
+      userWords.forEach((word, idx) => {
+        if (word === words[idx]) {
+          correctWords.push(word);
+        } else {
+          wrongWords.push(word);
+        }
+      });
       const totalWords = userWords.length;
       const correctWordsCount = correctWords.length;
+      const wrongWordsCount = totalWords - correctWordsCount;
       const accuracy = Math.floor((correctWordsCount / totalWords) * 100);
-      const timeTakenInMinutes = (timeLimit - timeLeft) / 60; // Assuming test time is 10 seconds
+      const timeTakenInMinutes = (timeLimit - timeLeft) / 60;
       const grossSpeed = Math.floor(totalWords / timeTakenInMinutes);
       const errorsPerMinute =
         (totalWords - correctWordsCount) / timeTakenInMinutes;
       const netSpeed = Math.floor(grossSpeed - errorsPerMinute);
-
       onTestComplete(
         totalWords,
         correctWordsCount,
+        wrongWordsCount,
         accuracy,
         grossSpeed,
-        netSpeed
+        netSpeed,
+        correctWords,
+        wrongWords,
+        backspaceCount
       );
     }
-  }, [timeLeft, userInput, onTestComplete, words]);
+  }, [timeLeft, userInput, onTestComplete, words, timeLimit]);
 
   return (
     <div className="w-full max-w-screen-lg mx-auto p-4 relative">
@@ -89,7 +109,13 @@ const EnglishTypingSpace = ({
         <FaHourglassStart className="mr-2 text-xl" />
         Timer: {timeLeft} seconds
       </div>
-      <TextHighlighter sampleText={sampleText} userText={userInput} />
+      {enableHighlight ? (
+        <TextHighlighter sampleText={sampleText} userText={userInput} />
+      ) : (
+        <div className="bg-white border border-gray-300 rounded p-4 mb-4 h-60 overflow-y-auto">
+          {sampleText}
+        </div>
+      )}
       <div>
         <textarea
           className="w-full p-4 border-2 border-gray-300 rounded focus:outline-none focus:border-red-300 focus:border-4 transition"
@@ -97,6 +123,7 @@ const EnglishTypingSpace = ({
           placeholder="Time will start once you start typing"
           value={userInput}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
         />
       </div>
     </div>
