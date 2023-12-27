@@ -43,9 +43,9 @@ function Navbar() {
                 <span className="text-xs mr-2 bold">→</span>
                 English Typing Test
               </a>
-              <a href="#" className="block py-1">
+              <a href="/mangaltypingtest" className="block py-1">
                 <span className="text-xs mr-2 bold">→</span>
-                Mangla Typing Test
+                Mangal Typing Test
               </a>
             </div>
           </div>

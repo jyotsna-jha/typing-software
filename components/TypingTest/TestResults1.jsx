@@ -1,6 +1,7 @@
+"use client"
 import React from "react";
 
-const TestResults = ({
+const TestResults1 = ({
   totalWords,
   correctWordsCount,
   accuracy,
@@ -11,11 +12,15 @@ const TestResults = ({
   wrongWords,
   wrongWordsCount,
   backspaceCount,
-}) => {
+}) => 
+  {
+    console.log("Correct Words:", correctWords);
+    console.log("Wrong Words:", wrongWords);
   return (
     <div className="p-4 md:w-1/2 mx-auto my-12 w-11/12 shadow-md rounded-sm">
       <div className="text-center text-red-400 text-xl font-bold mb-4">
-        English Typing Test Results
+        Hindi typing mangal
+        
       </div>
       <div className="border-b border-[#757d85] mb-4"></div>
       <table className="w-full">
@@ -40,6 +45,7 @@ const TestResults = ({
             <td className="text-[#222f3e] p-2">Accuracy:</td>
             <td className="text-[#222f3e] p-2">{accuracy}%</td>
           </tr>
+          
           <tr>
             <td className="text-[#222f3e] p-2">Gross Speed:</td>
             <td className="text-[#222f3e] p-2">{grossSpeed} WPM</td>
@@ -88,4 +94,4 @@ const TestResults = ({
   );
 };
 
-export default TestResults;
+export default TestResults1;

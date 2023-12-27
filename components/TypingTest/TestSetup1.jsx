@@ -1,9 +1,8 @@
 
+"use client"
 import React, { useState } from "react";
-import TestRules from "./TestRules";
-import TestPage from "./TestPage";
 
-const TestSetupForm = ({ onStartTest }) => {
+const TestSetupForm1 = ({ onStartTest }) => {
   const [userName, setUserName] = useState("");
   const [duration, setDuration] = useState(60); // Default duration to 60 seconds
   const [difficulty, setDifficulty] = useState("easy");
@@ -17,7 +16,7 @@ const TestSetupForm = ({ onStartTest }) => {
     <>
       <div className="p-4 max-w-md mx-auto bg-gray-200 rounded-lg mb-10 font-poppins mt-10">
         <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center text-[#222f3e]">
-          English Test Setup
+          Hindi Mangal Test Setup
         </h2>
         <form onSubmit={handleStartTest}>
           <div className="mb-4">
@@ -54,6 +53,7 @@ const TestSetupForm = ({ onStartTest }) => {
               <option value="30">30 seconds</option>
               <option value="60">1 minute</option>
               <option value="180">3 minutes</option>
+              <option value="900">15 minutes</option>
             </select>
           </div>
 
@@ -132,22 +132,9 @@ const TestSetupForm = ({ onStartTest }) => {
           </button>
         </form>
       </div>
-      <TestRules
-        title={"Online English Typing Test"}
-        text={
-          "Experience a fast and highly precise typing speed evaluation tool tailored for the English language. Our test is meticulously designed to provide exceptional user satisfaction and top-notch performance."
-        }
-      />
-      <TestRules
-        title={"How Does English Typing Test Work?"}
-        text={
-          "Please note that the test is case-sensitive. Within the designated time frame in the Typing Window Typing Tool, aim to type as many words as possible. The tool will calculate your typing speed in both GWPM (Gross Words Per Minute) and NWPM (Net Words Per Minute). This English Typing Assessment will provide insights into your typing speed [WPM], accuracy, the total number of words typed, and the number of correct words. The timer initiates as soon as you commence typing, and once the allotted time elapses, your overall performance summary will be available for self-evaluation."
-        }
-      />
       
-      <TestPage />
     </>
   );
 };
 
-export default TestSetupForm;
+export default TestSetupForm1;
