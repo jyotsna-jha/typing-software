@@ -1,7 +1,7 @@
 
 "use client"
 import React, { useState } from "react";
-
+import TestRules1 from "./TestRules2";
 const TestSetupForm1 = ({ onStartTest }) => {
   const [userName, setUserName] = useState("");
   const [duration, setDuration] = useState(60); // Default duration to 60 seconds
@@ -132,8 +132,22 @@ const TestSetupForm1 = ({ onStartTest }) => {
           </button>
         </form>
       </div>
+
+      <TestRules1
+        title={"Online Hindi Mangal Typing Test"}
+        text={
+          `  We developed the Hindi Typing Test to help you gauge your typing speed and accuracy using our typing test software. The objective behind crafting this typing test was to provide you with an online platform where you can undergo a Hindi typing assessment and receive precise and unbiased feedback.   `     }
+      />
+      <TestRules1
+        title={"How Does English Typing Test Work?"}
+        text={
+          "Please note that the test is case-sensitive. Within the designated time frame in the Typing Window Typing Tool, aim to type as many words as possible. The tool will calculate your typing speed in both GWPM (Gross Words Per Minute) and NWPM (Net Words Per Minute). This English Typing Assessment will provide insights into your typing speed [WPM], accuracy, the total number of words typed, and the number of correct words. The timer initiates as soon as you commence typing, and once the allotted time elapses, your overall performance summary will be available for self-evaluation."
+        }
+      />
       
     </>
+
+    
   );
 };
 
