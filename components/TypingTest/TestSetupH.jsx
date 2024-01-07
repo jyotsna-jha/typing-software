@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import TestRules1 from "./TestRules2";
-import TestPage2 from "./TestPage2";
+
 const TestSetupForm1 = ({ onStartTest }) => {
   const [userName, setUserName] = useState("");
   const [duration, setDuration] = useState(60); // Default duration to 60 seconds
@@ -16,7 +15,7 @@ const TestSetupForm1 = ({ onStartTest }) => {
     <>
       <div className="p-4 max-w-md mx-auto bg-gray-200 rounded-lg mb-10 font-poppins mt-10">
         <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center text-[#222f3e]">
-          Hindi Mangal Test Setup
+          Krutidev Test Setup
         </h2>
         <form onSubmit={handleStartTest}>
           <div className="mb-4">
@@ -133,22 +132,8 @@ const TestSetupForm1 = ({ onStartTest }) => {
         </form>
       </div>
 
-      <TestRules1
-        title={"Online Hindi Mangal Typing Test"}
-        text={`  We developed the Hindi Typing Test to help you gauge your typing speed and accuracy using our typing test software. The objective behind crafting this typing test was to provide you with an online platform where you can undergo a Hindi typing assessment and receive precise and unbiased feedback.   `}
-      />
-      <TestRules1
-        title={
-          "How to use Online Hindi Typing Test(Mangal Font in Ramington Gail Layout)?"
-        }
-        text={`Please start by entering your name in the designated box. After providing your name, proceed to the next step to manually select the duration of the Hindi Typing Test, with options available for up to 15 minutes. Following that, choose the difficulty level from the three options: easy, medium, or hard.
-
-          Once you have configured the test settings, click the "Start" button. Upon clicking, a drop-down window will appear, offering various options, such as displaying your username on the top left, showcasing the remaining time at the top center, and more. In the center of the window, you will find different Hindi words for the typing test. Below these words are options to display real-time result statistics for your test.
-          
-          To initiate the test, click on the box where "Time will start once you start typing" is indicated. This action will prompt you to begin typing the highlighted words, allowing for an assessment of your typing proficiency in Hindi.
-          `}
-      />
-      <TestPage2/>
+      
+     
     </>
   );
 };

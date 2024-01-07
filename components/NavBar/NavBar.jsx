@@ -32,7 +32,7 @@ function Navbar() {
                 activeDropdown === "typing" ? "block" : "hidden"
               }`}
             >
-              <a href="#" className="block  py-1  hover:text-[#e74c3c]">
+              <a href="/hinditypingtest" className="block  py-1  hover:text-[#e74c3c]">
                 <span className="text-xs mr-2 bold">→</span>
                 Hindi Typing Test
               </a>
@@ -49,36 +49,13 @@ function Navbar() {
               </a>
             </div>
           </div>
-          <div
-            className="relative inline-block"
-            onMouseEnter={() => setActiveDropdown("translator")}
-            onMouseLeave={() => setActiveDropdown("")}
-          >
-            <a href="#" className="flex items-center hover:text-[#e74c3c] py-4">
-              Translator{" "}
-              <span className="text-[10px] ml-2">
-                {activeDropdown == "translator" ? "▲" : "▼"}
-              </span>
-            </a>
-            <div
-              className={`absolute left-0 mt-0 w-48 bg-white text-gray-900 p-2 rounded shadow-lg ${
-                activeDropdown === "translator" ? "block" : "hidden"
-              }`}
-            >
-              <a href="#" className="block py-1  hover:text-[#e74c3c]">
-                <span className="text-xs mr-2 bold">→</span>
-                Hindi to English
-              </a>
-              <a href="#" className="block py-1 hover:text-[#e74c3c]">
-                <span className="text-xs mr-2 bold">→</span>
-                English to Hindi
-              </a>
-            </div>
-          </div>
+          <a href="/translations" className="hover:text-[#e74c3c] py-4">
+            Translator
+          </a>
           <a href="#" className="hover:text-[#e74c3c] py-4">
             Test
           </a>
-          <a href="#" className="hover:text-[#e74c3c] py-4">
+          <a href="/downloads" className="hover:text-[#e74c3c] py-4">
             Downloads
           </a>
         </div>
@@ -110,7 +87,7 @@ function Navbar() {
             </button>
             {activeDropdown === "typing" && (
               <div className="py-2 px-4 bg-white text-gray-900">
-                <a href="#" className="block py-1 hover:text-[#e74c3c]">
+                <a href="/hinditypingtest" className="block py-1 hover:text-[#e74c3c]">
                   <span className="text-xs mr-2 bold">→</span>
                   Hindi Typing Test
                 </a>
@@ -121,14 +98,14 @@ function Navbar() {
                   <span className="text-xs mr-2 bold">→</span>
                   English Typing Test
                 </a>
-                <a href="#" className="block py-1 hover:text-[#e74c3c]">
+                <a href="/mangaltypingtest" className="block py-1 hover:text-[#e74c3c]">
                   <span className="text-xs mr-2 bold">→</span>
                   Mangla Typing Test
                 </a>
               </div>
             )}
           </div>
-          <div className="relative group">
+          {/* <div className="relative group">
             <button
               onClick={() =>
                 setActiveDropdown(
@@ -154,7 +131,10 @@ function Navbar() {
                 </a>
               </div>
             )}
-          </div>
+          </div> */}
+          <a href="/translations" className="block py-2 px-4">
+            Translator
+          </a>
           <a href="#" className="block py-2 px-4">
             Test
           </a>
