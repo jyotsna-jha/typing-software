@@ -32,7 +32,7 @@ function TextHighlighter({ sampleText, userText }) {
     <div
       ref={containerRef}
       className="bg-white border border-gray-300 rounded p-4 mb-4 h-60 overflow-y-auto"
-      style={{ fontFamily: "hindi", fontSize: "20px" }}
+      style={{ fontFamily: "hindi", fontSize: "29px" }}
 
     >
       {sampleWords.map((word, idx) => {

@@ -1,7 +1,7 @@
-"use client";
+"use client"
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVolumeUp, faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
+import { faVolumeUp, faExchangeAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const countries = {
   "am-ET": "Amharic",
@@ -165,12 +165,23 @@ const Translator = () => {
     }
   };
 
+  const handleReset = () => {
+    setFromText('');
+    setToText('');
+  };
+
   return (
     <div className="container mx-auto p-4 mt-8 max-w-2xl">
-      <h1 className="text-4xl text-red-400 mb-4 font-bold text-center">Language Translator</h1>
-      <p className="text-gray-800 mb-8 text-center">Translate text between different languages with ease...</p>
+      <h1 className="text-4xl text-red-500 mb-4 font-bold text-center">Language Translator</h1>
+      <p className="text-gray-800 mb-8 text-center">Translate text between different languages with style...</p>
       <div className="flex flex-col items-center space-y-6 lg:space-y-8">
-        <div className="text-input w-full">
+        <div className="text-input relative w-full">
+          <button
+            className="absolute bottom-4 left-4 p-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800 text-sm"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
           <textarea
             spellCheck="false"
             className="from-text p-4 border border-gray-300 rounded-lg w-full h-64 focus:outline-none focus:border-red-300 focus:border-4 transition"
@@ -179,14 +190,12 @@ const Translator = () => {
             onChange={(e) => setFromText(e.target.value)}
             onKeyUp={handleKeyUp}
           ></textarea>
-          <textarea
-            spellCheck="false"
-            readOnly
-            disabled
-            className="to-text p-4 border border-gray-300 rounded-lg w-full h-64"
-            placeholder="Translation"
-            value={toText}
-          ></textarea>
+          <button
+            className="absolute bottom-4 right-4 p-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800 text-sm"
+            onClick={handleTranslate}
+          >
+            Translate
+          </button>
         </div>
         <div className="flex items-center space-y-4 lg:space-y-0 lg:space-x-8">
           <div className="row flex items-center space-x-4">
@@ -231,12 +240,14 @@ const Translator = () => {
             </div>
           </div>
         </div>
-        <button
-          className="p-4 bg-red-400 text-white rounded-lg hover:bg-red-500 focus:outline-none focus:shadow-outline-red active:bg-red-800 w-full"
-          onClick={handleTranslate}
-        >
-          Translate Text
-        </button>
+        <textarea
+          spellCheck="false"
+          readOnly
+          disabled
+          className="to-text p-4 border border-gray-300 rounded-lg w-full h-64 mt-4"
+          placeholder="Translation"
+          value={toText}
+        ></textarea>
       </div>
     </div>
   );

@@ -6,7 +6,6 @@ const characterMapping = {
     S: "ै",
     d: "क",
     D: "क्",
-    f: "ि",
     g: "ह",
     G: "ळ",
     h: "ी",
@@ -156,6 +155,11 @@ const characterMapping = {
     "?": "घ्",
     "?A": "घ",
     "?k": "घ",
+
+    f: "ि",
+    "f[": "खि्",
+    "f[k":"खि",
+    "f[A":"खि"
   };
   
   export default characterMapping;

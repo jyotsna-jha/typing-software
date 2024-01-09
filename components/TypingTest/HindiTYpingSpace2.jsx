@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaHourglassStart } from "react-icons/fa";
-import TextHighlighter from "./TextHighlighterH";
+import TextHighlighter from "./TextHighlighter";
 
 const HindiTypingSpace = ({
   sampleText,
@@ -19,13 +19,13 @@ const HindiTypingSpace = ({
   const [endTime, setEndTime] = useState(null);
   const words = sampleText.split(" ");
 
+
   const autoScroll = () => {
     const textArea = textAreaRef.current;
     const linesCompleted = (textArea.value.match(/\n/g) || []).length + 1;
     textArea.scrollTop = linesCompleted * 20;
   };
 
-  
   const handleKeyDown = (e) => {
     if (e.key === "Backspace") {
       setBackspaceCount((prevCount) => prevCount + 1);
@@ -102,7 +102,10 @@ const HindiTypingSpace = ({
       console.log("Wrong word:", typedWord);
     }
 
-    if (currentWord === typedWord && highlightedWordIndex < words.length - 1) {
+    if (
+      currentWord === typedWord &&
+      highlightedWordIndex < words.length - 1
+    ) {
       setHighlightedWordIndex((prevIndex) => prevIndex + 1);
     } else if (
       highlightedWordIndex === words.length - 1 &&
@@ -159,6 +162,7 @@ const HindiTypingSpace = ({
     }
   }, [timeLeft, userInput, onTestComplete, words, timeLimit]);
 
+
   return (
     <div className="w-full max-w-screen-lg mx-auto p-4 relative">
       <div className="text-center py-4">
@@ -179,9 +183,7 @@ const HindiTypingSpace = ({
       {enableHighlight ? (
         <TextHighlighter sampleText={sampleText} userText={userInput} />
       ) : (
-        <div className="bg-white border border-gray-300 rounded p-4 mb-4 h-60 overflow-y-auto "
-        style={{  fontSize: "20px" }}
-        >
+        <div className="bg-white border border-gray-300 rounded p-4 mb-4 h-60 overflow-y-auto">
           {sampleText}
         </div>
       )}
@@ -194,7 +196,7 @@ const HindiTypingSpace = ({
           value={userInput}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          style={{ fontFamily: "hindi", fontSize: "29px" }}
+          style={{ fontFamily: 'hindi', fontSize: '30px' }} 
         />
       </div>
     </div>

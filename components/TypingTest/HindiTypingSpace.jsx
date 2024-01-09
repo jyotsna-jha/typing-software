@@ -68,9 +68,9 @@ const HindiTypingSpace = ({
     ".": "ण्",
     F: "थ्",
     H: "भ्",
-    "[": "ख्",
+   /*  "[": "ख्",
     "[A": "ख",
-    "[k": "ख",
+    "[k": "ख", */
     ".A": "ण",
     ".k": "ण",
     "/A": "ध",
@@ -88,6 +88,7 @@ const HindiTypingSpace = ({
     "{A": "क्ष",
     "{k": "क्ष",
     "/": "ध्",
+   
   };
 
   const handleKeyDown = (e) => {
@@ -113,8 +114,8 @@ const HindiTypingSpace = ({
         "?",
         '"',
         "]",
-        "[",
-        "&",
+        /*  "[",  */ 
+       "&",
         "}",
         "^",
         "'",
@@ -166,10 +167,10 @@ const HindiTypingSpace = ({
     } else if (e.key === "]") {
       setUserInput((prev) => prev + ",");
       lastKeyPressed.current = "]";
-    } else if (e.key === "[") {
+    }  /*   else if (e.key === "[") {
       setUserInput((prev) => prev + "ख्");
       lastKeyPressed.current = "[";
-    } else if (e.key === "&") {
+    }  */  else if (e.key === "&") {
       setUserInput((prev) => prev + '"');
       lastKeyPressed.current = "&";
     } else if (e.key === "}") {
@@ -273,11 +274,11 @@ const HindiTypingSpace = ({
         '"': "ष्",
         ",": "ए",
         ".": "ण्",
-        /*  "]": ",", */
+          "]": ",",
         "\u003F": "?",
         "\u0022": '"',
-        "\u005D": "]",
-        "\u005B": "[",
+        "\u005D": "]", 
+          /*  "\u005B": "[", */ 
         "\u0026": "&",
         "\u007D": "}", // Alt+0125 mapped to }
         "\u005E": "^", // Alt+094 mapped to ^
@@ -325,7 +326,7 @@ const HindiTypingSpace = ({
           "?",
           '"',
           "]",
-          "[",
+            /* "[", */ 
           "&",
           "}",
           "\\",
@@ -342,11 +343,12 @@ const HindiTypingSpace = ({
 
       for (let i = 0; i < inputValue.length; i++) {
         const char = inputValue[i];
-
-        if (specialCharacterMapping.hasOwnProperty(char)) {
+       
+        
+          if (specialCharacterMapping.hasOwnProperty(char)) {
           // If the current character is one of the special characters, add it without further conversion
           newInput += char;
-        } else if (char in charactersMapping) {
+        }  /*  else if (char in charactersMapping) {
           const mappedCharacter = charactersMapping[char];
 
           if (isIApplied) {
@@ -358,7 +360,29 @@ const HindiTypingSpace = ({
             setIsIApplied(char === "f");
             newInput += mappedCharacter;
           }
-        } else if (char === "[") {
+        }   
+ */
+
+
+        else if (char === "f") {
+          // Handle '[' character separately
+          newInput += characterMapping[char];
+        } else if (
+          (char === "[") &&
+          newInput.endsWith(characterMapping["f"])
+        ) {
+          // Handle 'A' and 'k' after '['
+          newInput = newInput.slice(0, -characterMapping["f"].length);
+          newInput += characterMapping[`f${char}`] || char;
+        } else if (
+          (char === "A" || char === "k") &&
+          newInput.endsWith(characterMapping["f["])
+        ) {
+          // Handle 'A' and 'k' after 'f['
+          newInput = newInput.slice(0, -characterMapping["f["].length);
+          newInput += characterMapping[`f[${char}`] || char;
+        }
+        else if (char === "[") {
           // Handle '[' character separately
           newInput += characterMapping[char];
         } else if (

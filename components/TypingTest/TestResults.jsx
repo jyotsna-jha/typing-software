@@ -22,7 +22,10 @@ const TestResults = ({
         <tbody>
           <tr>
             <td className="text-[#222f3e] p-2">Total Words Typed:</td>
-            <td className="text-[#222f3e] p-2">{totalWords}</td>
+            <td className="text-[#222f3e] p-2">{totalWords}
+            
+            
+            </td>
           </tr>
           <tr>
             <td className="text-[#222f3e] p-2">Correct Words:</td>
