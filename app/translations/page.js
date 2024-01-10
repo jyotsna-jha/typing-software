@@ -173,7 +173,7 @@ const Translator = () => {
   return (
     <div className="container mx-auto p-4 mt-8 max-w-2xl">
       <h1 className="text-4xl text-red-500 mb-4 font-bold text-center">Language Translator</h1>
-      <p className="text-gray-800 mb-8 text-center">Translate text between different languages with style...</p>
+      <p className="text-gray-600 md:text-lg mb-8 text-center font-semibold">Translate text between different languages with style...</p>
       <div className="flex flex-col items-center space-y-6 lg:space-y-8">
         <div className="text-input relative w-full">
           <button

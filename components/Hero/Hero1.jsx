@@ -11,7 +11,7 @@ const HomePage = () => {
   const buttons = [
     { icon: <FaKeyboard size={30} />, text: "Hindi Typing Test", link: "./hinditypingtest" },
     { icon: <FaKeyboard size={30} />, text: "English Typing Test", link: "/englishtypingtest" },
-    { icon: <FaKeyboard size={30} />, text: "Unicode Typing Test", link: "/mangaltypingtest" },
+    { icon: <FaKeyboard size={30} />, text: "Hindi Mangal Typing Test", link: "/mangaltypingtest" },
     { icon: <FaLanguage size={30} />, text: "Translator", link: "./translations" },
     { icon: <FaTasks size={30} />, text: "MCQ Tests", link: "./mcq-tests" },
     { icon: <FaDownload size={30} />, text: "Downloads", link: "./downloads" },

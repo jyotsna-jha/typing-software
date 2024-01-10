@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaHourglassStart } from "react-icons/fa";
-import TextHighlighter from "./TextHighlighter";
+import TextHighlighter from "./TextHighlighterH";
 
 const HindiTypingSpace = ({
   sampleText,
@@ -177,7 +177,7 @@ const HindiTypingSpace = ({
         Hi {userName}
       </h1>
       <div className="flex items-center text-[#e74c3c] font-semibold text-lg mb-4">
-        <FaHourglassStart className="mr-2 text-xl" />
+        <FaHourglassStart className="mr-2 text-2xl" />
         Timer: {formatTime(timeLeft)}
       </div>
       {enableHighlight ? (

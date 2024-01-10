@@ -7,7 +7,8 @@ function TextHighlighter({ sampleText, userText }) {
   const sampleWords = sampleText.split(/\s+/);
 
   return (
-    <div className="bg-white border border-gray-300 rounded p-4 mb-4 h-60 overflow-y-auto">
+    <div className="bg-white border border-gray-300 rounded p-4 mb-4 h-60 overflow-y-auto"
+    >
       {sampleWords.map((word, idx) => {
         let isCurrentWord = idx === currentWordIndex;
 

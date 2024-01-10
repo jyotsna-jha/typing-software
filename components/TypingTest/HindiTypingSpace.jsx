@@ -68,9 +68,9 @@ const HindiTypingSpace = ({
     ".": "ण्",
     F: "थ्",
     H: "भ्",
-   /*  "[": "ख्",
+     "[": "ख्",
     "[A": "ख",
-    "[k": "ख", */
+    "[k": "ख", 
     ".A": "ण",
     ".k": "ण",
     "/A": "ध",
@@ -348,7 +348,7 @@ const HindiTypingSpace = ({
           if (specialCharacterMapping.hasOwnProperty(char)) {
           // If the current character is one of the special characters, add it without further conversion
           newInput += char;
-        }  /*  else if (char in charactersMapping) {
+        }    else if (char in charactersMapping) {
           const mappedCharacter = charactersMapping[char];
 
           if (isIApplied) {
@@ -361,10 +361,8 @@ const HindiTypingSpace = ({
             newInput += mappedCharacter;
           }
         }   
- */
 
-
-        else if (char === "f") {
+         else if (char === "f") {
           // Handle '[' character separately
           newInput += characterMapping[char];
         } else if (
@@ -381,7 +379,7 @@ const HindiTypingSpace = ({
           // Handle 'A' and 'k' after 'f['
           newInput = newInput.slice(0, -characterMapping["f["].length);
           newInput += characterMapping[`f[${char}`] || char;
-        }
+        } 
         else if (char === "[") {
           // Handle '[' character separately
           newInput += characterMapping[char];
@@ -1054,7 +1052,7 @@ const HindiTypingSpace = ({
         Hi {userName}
       </h1>
       <div className="flex items-center text-[#e74c3c] font-semibold text-lg mb-4">
-        <FaHourglassStart className="mr-2 text-xl" />
+        <FaHourglassStart className="mr-2 text-2xl" />
         Timer: {formatTime(timeLeft)}
       </div>
       {enableHighlight ? (
@@ -1069,10 +1067,12 @@ const HindiTypingSpace = ({
           ref={textAreaRef}
           className="w-full p-4 border-2 border-gray-300 rounded focus:outline-none focus:border-red-300 focus:border-4 transition"
           rows="10"
-          placeholder="Time will start once you start typing"
+          placeholder="समय शुरू होगा जब आप टाइपिंग करना शुरू करेंगे।"
           value={userInput}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
+          style={{fontSize: '20px' }} 
+
         />
       </div>
     </div>
