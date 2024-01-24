@@ -17,7 +17,7 @@ function Navbar() {
             Home
           </a>
           <div
-            className="relative inline-block"
+            className="relative inline-block z-50 "
             onMouseEnter={() => setActiveDropdown("typing")}
             onMouseLeave={() => setActiveDropdown("")}
           >
@@ -43,7 +43,10 @@ function Navbar() {
                 <span className="text-xs mr-2 bold">→</span>
                 English Typing Test
               </a>
-              <a href="/mangaltypingtest" className="block py-1">
+              <a
+                href="/mangaltypingtest"
+                className="block py-1 hover:text-[#e74c3c]"
+              >
                 <span className="text-xs mr-2 bold">→</span>
                 Mangal Typing Test
               </a>
@@ -78,7 +81,7 @@ function Navbar() {
           <a href="#" className="hover:text-[#e74c3c] py-4">
             Test
           </a>
-          <a href="#" className="hover:text-[#e74c3c] py-4">
+          <a href="/downloads" className="hover:text-[#e74c3c] py-4">
             Downloads
           </a>
         </div>
