@@ -16,7 +16,7 @@ export default function TypingTest() {
 
   const handleStartTest = (duration, difficulty, userName, enableHighlight) => {
     // Assuming you have a file for Hindi texts
-    const selectedTexts = texts[difficulty]; 
+    const selectedTexts = texts[difficulty];
     if (Array.isArray(selectedTexts)) {
       const randomIndex = Math.floor(Math.random() * selectedTexts.length);
       setTestText(selectedTexts[randomIndex]);

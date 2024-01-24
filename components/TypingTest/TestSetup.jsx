@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import TestRules from "./TestRules";
 import TestPage from "./TestPage";
@@ -144,7 +143,6 @@ const TestSetupForm = ({ onStartTest }) => {
           "Please note that the test is case-sensitive. Within the designated time frame in the Typing Window Typing Tool, aim to type as many words as possible. The tool will calculate your typing speed in both GWPM (Gross Words Per Minute) and NWPM (Net Words Per Minute). This English Typing Assessment will provide insights into your typing speed [WPM], accuracy, the total number of words typed, and the number of correct words. The timer initiates as soon as you commence typing, and once the allotted time elapses, your overall performance summary will be available for self-evaluation."
         }
       />
-      
       <TestPage />
     </>
   );

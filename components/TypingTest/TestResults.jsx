@@ -11,6 +11,7 @@ const TestResults = ({
   wrongWords,
   wrongWordsCount,
   backspaceCount,
+  testText,
 }) => {
   return (
     <div className="p-4 md:w-1/2 mx-auto my-12 w-11/12 shadow-md rounded-sm">
@@ -56,6 +57,9 @@ const TestResults = ({
       </table>
       <div className="border-t border-[#757d85] mt-4"></div>
       <div className="mt-4">
+        <h2 className="text-xl font-bold text-[#222f3e] mb-2">Sample Text:</h2>
+        <p className="text-[#222f3e]">{testText}</p>{" "}
+        {/* Display the whole text */}
         <h2 className="text-xl font-bold text-[#222f3e] mb-2">
           Correct Words:
         </h2>
@@ -68,12 +72,19 @@ const TestResults = ({
             ))}
           </table>
         </div>
-        <h2 className="text-xl font-bold text-[#222f3e] mb-2">Wrong Words:</h2>
+        <h2 className="text-xl font-bold text-[#222f3e] mb-2">
+          Wrong Words with their respective correct words:
+        </h2>
         <div className="overflow-auto max-h-48">
           <table className="w-full">
-            {wrongWords.map((word, index) => (
+            {wrongWords.map((wordPair, index) => (
               <tr key={index}>
-                <td className="border px-4 py-2">{word}</td>
+                <td className="border px-4 py-2 text-red-500">
+                  {wordPair.typed}
+                </td>
+                <td className="border px-4 py-2 text-green-500">
+                  {wordPair.correct}
+                </td>
               </tr>
             ))}
           </table>
