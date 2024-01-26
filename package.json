@@ -12,7 +12,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "lottie-web": "^5.12.2",
-    "next": "^14.0.0",
+    "next": "^14.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-fontawesome": "^1.7.1",

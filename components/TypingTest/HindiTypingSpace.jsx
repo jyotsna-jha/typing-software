@@ -27,27 +27,39 @@ const HindiTypingSpace = ({
 
   const charactersMapping = {
     d: "क",
+    D: "क्",
     f: "ि",
     g: "ह",
     G: "ळ",
     j: "र",
     J: "श्र",
+    L: "स्",
+    E: "म्",
+    R: "त्",
+    T: "ज्",
+    Y: "ल्",
     K: "ज्ञ",
+    I: "प्",
     l: "स",
     Q: "फ",
+    O: "व्",
+    P: "च्",
     e: "म",
     r: "त",
     t: "ज",
     y: "ल",
     u: "न",
+    U: "न्",
     i: "प",
     o: "व",
     p: "च",
-    Z: "र्र् ",
+    Z: "र्",
     /*  "]": "द्व", */
     "~": "द्य",
     x: "ग",
+    C: "ब्",
     c: "ब",
+    X: "ग्",
     v: "अ",
     V: "ट",
     b: "इ",
@@ -64,14 +76,14 @@ const HindiTypingSpace = ({
     "'": "श्",
     '"': "ष्",
     "{": "क्ष्‍",
-    "?": "घ्",
-    ".": "ण्",
-
+   /*  "?": "घ्", */
+         "\u003F": "?",
+      ".": "ण्",
     F: "थ्",
     H: "भ्",
-     "[": "ख्",
+    "[": "ख्",
     "[A": "ख",
-    "[k": "ख", 
+    "[k": "ख",
     ".A": "ण",
     ".k": "ण",
     "/A": "ध",
@@ -92,46 +104,69 @@ const HindiTypingSpace = ({
     "{k": "क्ष",
     "/": "ध्",
     "f[": "खि्",
-   "f[k":"खि",
-  "f[A":"खि", 
-  "f'":"शि्",
-  "f'k":"शि",
-  "f'A":"शि",
-  "f/":"धि्",
-  "f/k":"धि",
-  "f/A":"धि",
-  'f"':"षि्",
-  'f"k':"षि",
-  'f"A':"षि",
+    "f[k": "खि",
+    "f[A": "खि",
+    "f'": "शि्",
+    "f'k": "शि",
+    "f'A": "शि",
+    "f/": "धि्",
+    "f/k": "धि",
+    "f/A": "धि",
+    'f"': "षि्",
+    'f"k': "षि",
+    'f"A': "षि",
 
-  'f{':"क्षि्",
-  'f{k':"क्षि",
-  'f{A':"क्षि",
+    "f{": "क्षि्",
+    "f{k": "क्षि",
+    "f{A": "क्षि",
 
-  'f?':"घि्",
-  'f?k':"घि",
-  'f?A':"घि",
+    "f?": "घि्",
+    "f?k": "घि",
+    "f?A": "घि",
 
-  'f.':"णि्",
-  'f.k':"णि",
-  'f.A':"णि",
+    "f.": "णि्",
+    "f.k": "णि",
+    "f.A": "णि",
 
-  'fF':"थि् ",
-  'fFk':"थि",
-  'fFA':"थि",
+    fF: "थि् ",
+    fFk: "थि",
+    fFA: "थि",
 
-  'fH':"भि् ",
-  'fHk':"भि",
-  'fHA':"भि",
-  
-  ";":"य"
+    fH: "भि् ",
+    fHk: "भि",
+    fHA: "भि",
 
+    ";": "य",
 
+    fD: "कि्",
+    /* "fDk":"कि",
+   "fDA":"कि", */
 
+    fU: "नि्",
+    /* "fUk":"नि",
+   "fUA":"नि" */
+
+    fL: "सि्",
+    fE: "मि्",
+    fR: "ति्",
+    fT: "जि्",
+    fY: "लि्",
+    fI: "पि्",
+    fO: "वि्",
+    fP: "चि्",
+    fX: "गि्",
+    fC: " बि्",
+    "\u003D": "=",
+    "\u0060": "`",
+    "\u0084": '"',
   };
 
-  
 
+  /* const character1mapping={
+    "?": "घ्",
+
+  }; */
+  
   const handleKeyDown = (e) => {
     if (e.key === "Backspace") {
       setBackspaceCount((prevCount) => prevCount + 1);
@@ -144,28 +179,34 @@ const HindiTypingSpace = ({
       [
         "!",
         "|",
-       /*  "(", */
+        /*  "(", */
         "#",
         ":",
         "$",
-       /*  "*", */
+        /*  "*", */
         "%",
         "-",
-       
-       /*  "?", */
+        "+",
+        "\u002B",
+        /*  "?",  */
         /* '"', */
         "]",
-        /*  "[",  */ 
-       "&",
-      /*   "}", */
+        /*  "[",  */
+        "&",
+        /*   "}", */
         "^",
-       /*  "'", */
+        /*  "'",  */
         ",",
         "\\",
         "<",
         ">",
         "_",
-        "@"
+        /*  "\u0040", */
+         "@", 
+        "\u003D",
+        "=",
+        "\u0060",
+        "`",
       ].includes(e.key)
     ) {
       e.preventDefault();
@@ -179,7 +220,7 @@ const HindiTypingSpace = ({
     } /* else if (e.key === "(") {
       setUserInput((prev) => prev + "त्र");
       lastKeyPressed.current = "(";
-    }  */else if (e.key === "#") {
+    }  */ else if (e.key === "#") {
       setUserInput((prev) => prev + ":");
       lastKeyPressed.current = "#";
     } else if (e.key === ":") {
@@ -188,31 +229,33 @@ const HindiTypingSpace = ({
     } else if (e.key === "$") {
       setUserInput((prev) => prev + "*");
       lastKeyPressed.current = "$";
-    }/*  else if (e.key === "*") {
+    } /*  else if (e.key === "*") {
       setUserInput((prev) => prev + "द्ध");
       lastKeyPressed.current = "*";
-    }  */else if (e.key === "%") {
+    }  */ else if (e.key === "%") {
       setUserInput((prev) => prev + "-");
       lastKeyPressed.current = "%";
-    }  else if (e.key === "-") {
+    } else if (e.key === "-") {
       setUserInput((prev) => prev + ";");
       lastKeyPressed.current = "-";
     } /*  else if (e.key === ";") {
       setUserInput((prev) => prev + "य");
       lastKeyPressed.current = ";";
-    } *//*  else if (e.key === "?") {
+    } */
+
+    /*  else if (e.key === "?") {
       setUserInput((prev) => prev + "घ्");
       lastKeyPressed.current = "?";
-    }  *//* else if (e.key === '"') {
+    } */ /* else if (e.key === '"') {
       setUserInput((prev) => prev + "ष्");
       lastKeyPressed.current = '"';
-    }  */else if (e.key === "]") {
+    }  */ else if (e.key === "]") {
       setUserInput((prev) => prev + ",");
       lastKeyPressed.current = "]";
-    }  /*   else if (e.key === "[") {
+    } /*   else if (e.key === "[") {
       setUserInput((prev) => prev + "ख्");
       lastKeyPressed.current = "[";
-    }  */   else if (e.key === "&") {
+    }  */ else if (e.key === "&") {
       setUserInput((prev) => prev + "'");
       lastKeyPressed.current = "&";
     } /*  else if (e.key === "}") {
@@ -221,10 +264,10 @@ const HindiTypingSpace = ({
     }  */ else if (e.key === "^") {
       setUserInput((prev) => prev + "'");
       lastKeyPressed.current = "^";
-    }  /* else if (e.key === "'") {
+    } /* else if (e.key === "'") {
       setUserInput((prev) => prev + "श्");
       lastKeyPressed.current = "'";
-    }  */else if (e.key === ",") {
+    }  */ else if (e.key === ",") {
       setUserInput((prev) => prev + "ए");
       lastKeyPressed.current = ",";
     } else if (e.key === "\\") {
@@ -239,11 +282,47 @@ const HindiTypingSpace = ({
     } else if (e.key === "_") {
       setUserInput((prev) => prev + ".");
       lastKeyPressed.current = "_";
+    } else if (e.key === "+") {
+      setUserInput((prev) => prev + "्");
+      lastKeyPressed.current = "+";
+    } else if (e.key === "\u002B") {
+      setUserInput((prev) => prev + "+");
+      lastKeyPressed.current = "\u002B";
+    } else if (e.key === "=") {
+      setUserInput((prev) => prev + "ृ");
+      lastKeyPressed.current = "=";
+    } else if (e.key === "\u003D") {
+      setUserInput((prev) => prev + "=");
+      lastKeyPressed.current = "\u003D";
+    } else if (e.key === "`") {
+      setUserInput((prev) => prev + "़");
+      lastKeyPressed.current = "`";
+    } else if (e.key === "\u0060") {
+      setUserInput((prev) => prev + "`");
+      lastKeyPressed.current = "\u0060";
     }
-    else if (e.key === "@") {
+  
+    
+   /*  else if (e.key === ";" && lastKeyPressed.current === "f") {
+      e.preventDefault();
+      setUserInput(
+        (prev) =>
+          prev.slice(0, -charactersMapping["f"].length) +
+          charactersMapping["f;"]
+      );
+    } */
+
+
+       else if (e.key === "\u0040") {
+      setUserInput((prev) => prev + "@");
+      lastKeyPressed.current = "\u0040";
+    }   
+     else if (e.key === "@") {
       setUserInput((prev) => prev + "/");
       lastKeyPressed.current = "@";
-    }
+    }    
+    
+   
 
     if (e.key === "Z" && userInput.endsWith("इ")) {
       // If the last characters are 'इ', replace them with 'ई'
@@ -311,33 +390,35 @@ const HindiTypingSpace = ({
       let inputValue = e.target.value;
 
       const specialCharacterMapping = {
-          "@": "/", 
-          "&": '"',
-        /* "'": "श्", */
-         /* "/": "ध्",  */
-      /*  '"': "ष्", */
+         "@": "/",  
+          "\u0040": "@",  // Alt+064 mapped to @
+        "&": '"',
+        /*           "'": "श्",
+         */ /* "/": "ध्",  */
+        /*  '"': "ष्", */
         ",": "ए",
-      /*   ".": "ण्", */
-          "]": ",",
-        /*  "\u003F": "?",  */
-       /*  "\u0022": '"', */
-        "\u005D": "]", 
-          /*  "\u005B": "[", */ 
+
+        /*   ".": "ण्", */
+        "]": ",",
+       /*  "\u003F": "?", */
+        /*            "\u003F": "?",
+         */ /*  "\u0022": '"', */
+        "\u005D": "]",
+        /*  "\u005B": "[", */
         "\u0026": "&",
         /* "\u007D": "}", */ // Alt+0125 mapped to }
         "\u005E": "^", // Alt+094 mapped to ^
-       /*  "\u0027": "'",  */// Alt+039 mapped to '
+        /*  "\u0027": "'",  */ // Alt+039 mapped to '
         "\u002C": ",", // Alt+044 mapped to ,
         "\u005C": "\\", // Alt+092 mapped to \
         "\u003A": ":", // Alt+058 mapped to :
-       /*  "\u003B": ";", */ // Alt+059 mapped to ;
+        /*  "\u003B": ";", */ // Alt+059 mapped to ;
         "\u0023": "#",
         "\u003C": "<", // Alt+060 mapped to <
         "\u003E": ">", // Alt+062 mapped to >
-/*          _: ".", 
- */      };
-
-  
+        /*          _: ".",
+         */
+      };
 
       if (inputValue.length > 1) {
         // If there are more than one characters in the input, handle special characters separately
@@ -368,17 +449,17 @@ const HindiTypingSpace = ({
           "*",
           "%",
           "-",
-         /*  ";", */
-         /*  "?", */
-         /*  '"', */
+          /*  ";", */
+          /*  "?", */
+          /*  '"', */
           "]",
-            /* "[", */ 
+          /* "[", */
           "&",
           "}",
           "\\",
-          "@"
-         /*  ".", */
-         /*  "_", */
+           "@",
+          /*  ".", */
+          /*  "_", */
         ].includes(e.key)
       ) {
         inputValue = inputValue.slice(0, -1); // Remove the last character
@@ -390,155 +471,229 @@ const HindiTypingSpace = ({
 
       for (let i = 0; i < inputValue.length; i++) {
         const char = inputValue[i];
-       
-        
-           if (specialCharacterMapping.hasOwnProperty(char)) {
+
+        if (specialCharacterMapping.hasOwnProperty(char)) {
           // If the current character is one of the special characters, add it without further conversion
           newInput += char;
-        }    
-
+        } 
         
         else if (char in charactersMapping) {
           const mappedCharacter = charactersMapping[char];
           if (char === "Q" && newInput[newInput.length - 1] === "उ") {
             newInput = newInput.slice(0, -1) + "ऊ";
-          }
-        
-          else if (isIApplied) {
+          } else if (isIApplied) {
             setIsIApplied(false);
-        
+
             if (char === "[" && newInput.endsWith(charactersMapping["f"])) {
               newInput = newInput.slice(0, -charactersMapping["f"].length);
               newInput += charactersMapping[`f${char}`] || char;
-            } 
-            else if (char === "'" && newInput.endsWith(charactersMapping["f"])) {
+            } else if (
+              char === "'" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
               newInput = newInput.slice(0, -charactersMapping["f"].length);
               newInput += charactersMapping[`f${char}`] || char;
-            } 
-            else if (char === "/" && newInput.endsWith(charactersMapping["f"])) {
+            } else if (
+              char === "/" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
               newInput = newInput.slice(0, -charactersMapping["f"].length);
               newInput += charactersMapping[`f${char}`] || char;
-            } 
-            else if (char === '"' && newInput.endsWith(charactersMapping["f"])) {
+            } else if (
+              char === '"' &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
               newInput = newInput.slice(0, -charactersMapping["f"].length);
               newInput += charactersMapping[`f${char}`] || char;
-            } 
-            else if (char === '{' && newInput.endsWith(charactersMapping["f"])) {
+            } else if (
+              char === "{" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
               newInput = newInput.slice(0, -charactersMapping["f"].length);
               newInput += charactersMapping[`f${char}`] || char;
-            } 
-            else if (char === '?' && newInput.endsWith(charactersMapping["f"])) {
+            } else if (
+              char === "?" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
               newInput = newInput.slice(0, -charactersMapping["f"].length);
               newInput += charactersMapping[`f${char}`] || char;
-            } 
-            else if (char === '.' && newInput.endsWith(charactersMapping["f"])) {
+            } else if (
+              char === "." &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
               newInput = newInput.slice(0, -charactersMapping["f"].length);
               newInput += charactersMapping[`f${char}`] || char;
-            } 
-            else if (char === 'F' && newInput.endsWith(charactersMapping["f"])) {
+            } else if (
+              char === "F" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
               newInput = newInput.slice(0, -charactersMapping["f"].length);
               newInput += charactersMapping[`f${char}`] || char;
-            } 
-            else if (char === 'H' && newInput.endsWith(charactersMapping["f"])) {
+            } else if (
+              char === "H" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
               newInput = newInput.slice(0, -charactersMapping["f"].length);
               newInput += charactersMapping[`f${char}`] || char;
-            } 
-           
-            else {
+            } else if (
+              char === "D" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else if (
+              char === "U" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else if (
+              char === "E" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else if (
+              char === "R" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else if (
+              char === "T" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else if (
+              char === "Y" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else if (
+              char === "I" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else if (
+              char === "O" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else if (
+              char === "P" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else if (
+              char === "X" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else if (
+              char === "C" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else if (
+              char === "L" &&
+              newInput.endsWith(charactersMapping["f"])
+            ) {
+              newInput = newInput.slice(0, -charactersMapping["f"].length);
+              newInput += charactersMapping[`f${char}`] || char;
+            } else {
               newInput = newInput.slice(0, -1) + mappedCharacter + "ि";
             }
           } else {
             setIsIApplied(char === "f");
             newInput += mappedCharacter;
           }
-        }
-
-        else if (
+        } else if (
           (char === "A" || char === "k") &&
           newInput.endsWith(characterMapping["f["])
         ) {
           // Handle 'A' and 'k' after 'f['
           newInput = newInput.slice(0, -characterMapping["f["].length);
           newInput += characterMapping[`f[${char}`] || char;
-       
-        } 
-        else if (
+        } else if (
           (char === "A" || char === "k") &&
           newInput.endsWith(characterMapping["f'"])
         ) {
           // Handle 'A' and 'k' after 'f['
           newInput = newInput.slice(0, -characterMapping["f'"].length);
           newInput += characterMapping[`f'${char}`] || char;
-       
-        } 
-        else if (
+        } else if (
           (char === "A" || char === "k") &&
           newInput.endsWith(characterMapping["f/"])
         ) {
           // Handle 'A' and 'k' after 'f['
           newInput = newInput.slice(0, -characterMapping["f/"].length);
           newInput += characterMapping[`f/${char}`] || char;
-       
-        } 
-        else if (
+        } else if (
           (char === "A" || char === "k") &&
           newInput.endsWith(characterMapping['f"'])
         ) {
           // Handle 'A' and 'k' after 'f['
           newInput = newInput.slice(0, -characterMapping['f"'].length);
           newInput += characterMapping[`f"${char}`] || char;
-       
-        } 
-        else if (
+        } else if (
           (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping['f{'])
+          newInput.endsWith(characterMapping["f{"])
         ) {
           // Handle 'A' and 'k' after 'f['
-          newInput = newInput.slice(0, -characterMapping['f{'].length);
+          newInput = newInput.slice(0, -characterMapping["f{"].length);
           newInput += characterMapping[`f{${char}`] || char;
-       
-        } 
-        else if (
+        } else if (
           (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping['f?'])
+          newInput.endsWith(characterMapping["f?"])
         ) {
           // Handle 'A' and 'k' after 'f['
-          newInput = newInput.slice(0, -characterMapping['f?'].length);
+          newInput = newInput.slice(0, -characterMapping["f?"].length);
           newInput += characterMapping[`f?${char}`] || char;
-       
-        } 
-         
-        else if (
+        } else if (
           (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping['f.'])
+          newInput.endsWith(characterMapping["f."])
         ) {
           // Handle 'A' and 'k' after 'f['
-          newInput = newInput.slice(0, -characterMapping['f.'].length);
+          newInput = newInput.slice(0, -characterMapping["f."].length);
           newInput += characterMapping[`f.${char}`] || char;
-       
-        } 
-
-        else if (
+        } else if (
           (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping['fF'])
+          newInput.endsWith(characterMapping["fF"])
         ) {
           // Handle 'A' and 'k' after 'f['
-          newInput = newInput.slice(0, -characterMapping['fF'].length);
+          newInput = newInput.slice(0, -characterMapping["fF"].length);
           newInput += characterMapping[`fF${char}`] || char;
-       
-        } 
-        else if (
+        } else if (
           (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping['fH'])
+          newInput.endsWith(characterMapping["fH"])
         ) {
           // Handle 'A' and 'k' after 'f['
-          newInput = newInput.slice(0, -characterMapping['fH'].length);
+          newInput = newInput.slice(0, -characterMapping["fH"].length);
           newInput += characterMapping[`fH${char}`] || char;
+        } else if (
+          (char === "A" || char === "k") &&
+          newInput.endsWith(characterMapping["fD"])
+        ) {
+          // Handle 'A' and 'k' after 'f['
+          newInput = newInput.slice(0, -characterMapping["fD"].length);
+          newInput += characterMapping[`fD${char}`] || char;
+        } else if (char === "[") {
+        /* else if (
+          (char === "A" || char === "k") &&
+          newInput.endsWith(characterMapping['fU'])
+        ) {
+          // Handle 'A' and 'k' after 'f['
+          newInput = newInput.slice(0, -characterMapping['fU'].length);
+          newInput += characterMapping[`fU${char}`] || char;
        
-        } 
-
-        
-        else if (char === "[") {
+        }  */
           // Handle '[' character separately
           newInput += characterMapping[char];
         } else if (
@@ -596,10 +751,7 @@ const HindiTypingSpace = ({
           if (char === "A" || char === "k") {
             newInput += "ा";
           }
-        } 
-        
-        
-        else if (
+        } else if (
           (char === "A" || char === "k") &&
           newInput[newInput.length - 1] === "अ"
         ) {
@@ -792,12 +944,7 @@ const HindiTypingSpace = ({
           if (char === "A" || char === "k") {
             newInput += "ा";
           }
-        }
-
-       
-        
-        
-        else if (char === "?") {
+        } else if (char === "?") {
           // Handle '[' character separately
           newInput += characterMapping[char];
         } else if (
@@ -1234,8 +1381,7 @@ const HindiTypingSpace = ({
           value={userInput}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          style={{fontSize: '20px' }} 
-
+          style={{ fontSize: "20px" }}
         />
       </div>
     </div>
