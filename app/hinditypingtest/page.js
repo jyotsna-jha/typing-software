@@ -1,11 +1,13 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect, useCallback } from "react";
 import TestSetupForm from "@/components/TypingTest/TestSetupH";
-import HindiTypingSpace from "@/components/TypingTest/HindiTYpingSpace2"; // Update import
+import HindiTypingSpace from "@/components/TypingTest/HindiTypingSpace2"; // Update import if necessary
 import TestResults from "@/components/TypingTest/TestResultsH";
-import texts from "@/data/hindiText"; // Assuming you have a file for Hindi texts, update import
 
 export default function TypingTest() {
+  const [texts, setTexts] = useState({});
+  const [availableDifficulties, setAvailableDifficulties] = useState([]);
   const [startTest, setStartTest] = useState(false);
   const [timeOver, setTimeOver] = useState(false);
   const [stats, setStats] = useState({});
@@ -14,49 +16,72 @@ export default function TypingTest() {
   const [userName, setUserName] = useState("");
   const [enableHighlight, setEnableHighlight] = useState(true);
 
-  const handleStartTest = (duration, difficulty, userName, enableHighlight) => {
-    // Assuming you have a file for Hindi texts
-    const selectedTexts = texts[difficulty]; 
-    if (Array.isArray(selectedTexts)) {
-      const randomIndex = Math.floor(Math.random() * selectedTexts.length);
-      setTestText(selectedTexts[randomIndex]);
-      setDuration(duration);
-      setUserName(userName);
-      setEnableHighlight(enableHighlight);
-      setStartTest(true);
-    } else {
-      console.error(
-        "Selected texts are not available for difficulty:",
-        difficulty
-      );
+  useEffect(() => {
+    fetchTexts();
+  }, []);
+
+  const transformTexts = useCallback((fetchedTexts) => {
+    const transformed = fetchedTexts.reduce((acc, item) => {
+      if (!acc[item.difficulty]) {
+        acc[item.difficulty] = [];
+      }
+      acc[item.difficulty].push(item.text);
+      return acc;
+    }, {});
+
+    const difficulties = Object.keys(transformed);
+    console.log("Available Difficulties:", difficulties); // Log the available difficulties
+    setAvailableDifficulties(difficulties);
+    return transformed;
+  }, []);
+
+  const fetchTexts = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/hinditext");
+      if (response.ok) {
+        const data = await response.json();
+        setTexts(transformTexts(data));
+      } else {
+        throw new Error("Error fetching texts.");
+      }
+    } catch (error) {
+      console.error("Error fetching texts:", error);
     }
   };
 
-  const handleTestComplete = (
-    totalWords,
-    correctWordsCount,
-    wrongWordsCount,
-    accuracy,
-    grossSpeed,
-    netSpeed,
-    correctWords,
-    wrongWords,
-    backspaceCount
-  ) => {
-    setStats({
-      totalWords,
-      correctWordsCount,
-      wrongWordsCount,
-      accuracy,
-      grossSpeed,
-      netSpeed,
-      correctWords,
-      wrongWords,
-      backspaceCount,
-    });
+  const handleStartTest = useCallback(
+    (selectedDuration, selectedDifficulty, selectedUserName, highlight) => {
+      console.log(
+        "Selected Difficulty in handleStartTest:",
+        selectedDifficulty
+      );
+      console.log("Current Texts State:", texts);
+      if (texts[selectedDifficulty] && texts[selectedDifficulty].length > 0) {
+        const randomIndex = Math.floor(
+          Math.random() * texts[selectedDifficulty].length
+        );
+        const randomText = texts[selectedDifficulty][randomIndex];
+        setTestText(randomText);
+        setDuration(selectedDuration);
+        setUserName(selectedUserName);
+        setEnableHighlight(highlight);
+        setStartTest(true);
+      } else {
+        console.error(
+          "No texts available for the selected difficulty:",
+          selectedDifficulty
+        );
+        // You might want to handle this error more gracefully
+      }
+    },
+    [texts]
+  );
+
+  const handleTestComplete = useCallback((testStats) => {
+    setStats(testStats);
     setTimeOver(true);
     setStartTest(false);
-  };
+  }, []);
 
   const retakeTest = () => {
     setTimeOver(false);
@@ -64,7 +89,6 @@ export default function TypingTest() {
   };
 
   if (startTest) {
-    // Use HindiTypingSpace component instead of EnglishTypingSpace
     return (
       <HindiTypingSpace
         sampleText={testText}
@@ -81,7 +105,10 @@ export default function TypingTest() {
       {timeOver ? (
         <TestResults {...stats} retakeTest={retakeTest} />
       ) : (
-        <TestSetupForm onStartTest={handleStartTest} />
+        <TestSetupForm
+          onStartTest={handleStartTest}
+          difficulties={availableDifficulties}
+        />
       )}
     </>
   );

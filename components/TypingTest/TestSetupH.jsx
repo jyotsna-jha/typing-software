@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
 
-const TestSetupForm1 = ({ onStartTest }) => {
+const TestSetupForm1 = ({ onStartTest, difficulties }) => {
   const [userName, setUserName] = useState("");
   const [duration, setDuration] = useState(60); // Default duration to 60 seconds
-  const [difficulty, setDifficulty] = useState("easy");
+  const [difficulty, setDifficulty] = useState(difficulties?.[0]);
   const [enableHighlight, setEnableHighlight] = useState(true);
   const handleStartTest = (e) => {
     e.preventDefault();
+    console.log("Submitting with difficulty:", difficulty);
     onStartTest(duration, difficulty, userName, enableHighlight); // Use the callback to pass the values to the parent component
   };
 
@@ -58,55 +59,19 @@ const TestSetupForm1 = ({ onStartTest }) => {
 
           <div className="mb-4">
             <label className="block font-medium text-[#222f3e]">
-              Select Difficulty Level:
+              Select Category:
             </label>
-            <div className="flex flex-col">
-              <label
-                htmlFor="easy"
-                className="text-[#8395a7] text-sm sm:text-base"
-              >
-                <input
-                  type="radio"
-                  id="easy"
-                  name="difficulty"
-                  value="easy"
-                  checked={difficulty === "easy"}
-                  onChange={() => setDifficulty("easy")}
-                  className="mr-2"
-                />
-                Easy
-              </label>
-              <label
-                htmlFor="medium"
-                className="text-[#8395a7] text-sm sm:text-base"
-              >
-                <input
-                  type="radio"
-                  id="medium"
-                  name="difficulty"
-                  value="medium"
-                  checked={difficulty === "medium"}
-                  onChange={() => setDifficulty("medium")}
-                  className="mr-2"
-                />
-                Medium
-              </label>
-              <label
-                htmlFor="hard"
-                className="text-[#8395a7] text-sm sm:text-base"
-              >
-                <input
-                  type="radio"
-                  id="hard"
-                  name="difficulty"
-                  value="hard"
-                  checked={difficulty === "hard"}
-                  onChange={() => setDifficulty("hard")}
-                  className="mr-2"
-                />
-                Hard
-              </label>
-            </div>
+            <select
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+              className="w-full border border-gray-300 rounded p-2 text-sm sm:text-base text-[#8395a7]"
+            >
+              {difficulties.map((diff) => (
+                <option key={diff} value={diff}>
+                  {diff.charAt(0).toUpperCase() + diff.slice(1)}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="mb-4">
             <label
@@ -131,9 +96,6 @@ const TestSetupForm1 = ({ onStartTest }) => {
           </button>
         </form>
       </div>
-
-      
-     
     </>
   );
 };

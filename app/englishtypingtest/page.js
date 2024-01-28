@@ -6,7 +6,8 @@ import EnglishTypingSpace from "@/components/TypingTest/EnglishTypingSpace";
 import TestResults from "@/components/TypingTest/TestResults";
 
 export default function TypingTest() {
-  const [texts, setTexts] = useState({ easy: [], medium: [], hard: [] });
+  const [texts, setTexts] = useState({});
+  const [availableDifficulties, setAvailableDifficulties] = useState([]);
   const [startTest, setStartTest] = useState(false);
   const [timeOver, setTimeOver] = useState(false);
   const [stats, setStats] = useState({});
@@ -19,77 +20,53 @@ export default function TypingTest() {
     fetchTexts();
   }, []);
 
-  const transformTexts = (fetchedTexts) => {
-    return fetchedTexts.reduce((acc, item) => {
-      acc[item.difficulty] = acc[item.difficulty] || [];
+  const transformTexts = useCallback((fetchedTexts) => {
+    const transformed = fetchedTexts.reduce((acc, item) => {
+      if (!acc[item.difficulty]) {
+        acc[item.difficulty] = [];
+      }
       acc[item.difficulty].push(item.text);
       return acc;
     }, {});
-  };
+
+    setAvailableDifficulties(Object.keys(transformed));
+    return transformed;
+  }, []);
 
   const fetchTexts = async () => {
     try {
       const response = await fetch("http://localhost:3000/englishtext");
       if (response.ok) {
-        const fetchedTexts = await response.json();
-        setTexts(transformTexts(fetchedTexts));
+        const data = await response.json();
+        setTexts(transformTexts(data));
       } else {
-        throw new Error("Server responded with an error.");
+        throw new Error("Error fetching texts.");
       }
     } catch (error) {
-      console.error("Error fetching texts:", error.message);
+      console.error("Error fetching texts:", error);
     }
   };
 
   const handleStartTest = useCallback(
-    (duration, difficulty, userName, enableHighlight) => {
-      const selectedTexts = texts[difficulty];
-      if (selectedTexts && selectedTexts.length > 0) {
-        const randomIndex = Math.floor(Math.random() * selectedTexts.length);
-        setTestText(selectedTexts[randomIndex]);
-        setDuration(duration);
-        setUserName(userName);
-        setEnableHighlight(enableHighlight);
-        setStartTest(true);
-      } else {
-        console.error(
-          "Selected texts are not available for difficulty:",
-          difficulty
-        );
-      }
+    (selectedDuration, selectedDifficulty, selectedUserName, highlight) => {
+      const randomText =
+        texts[selectedDifficulty][
+          Math.floor(Math.random() * texts[selectedDifficulty].length)
+        ];
+      setTestText(randomText);
+      setDuration(selectedDuration);
+      setUserName(selectedUserName);
+      setEnableHighlight(highlight);
+      setStartTest(true);
     },
     [texts]
   );
 
-  const handleTestComplete = useCallback(
-    (
-      totalWords,
-      correctWordsCount,
-      wrongWordsCount,
-      accuracy,
-      grossSpeed,
-      netSpeed,
-      correctWords,
-      wrongWords,
-      backspaceCount
-    ) => {
-      setStats({
-        totalWords,
-        correctWordsCount,
-        wrongWordsCount,
-        accuracy,
-        grossSpeed,
-        netSpeed,
-        correctWords,
-        wrongWords,
-        backspaceCount,
-        testText,
-      });
-      setTimeOver(true);
-      setStartTest(false);
-    },
-    [testText]
-  );
+  const handleTestComplete = useCallback((testStats) => {
+    setStats(testStats);
+    setTimeOver(true);
+    setStartTest(false);
+  }, []);
 
   const retakeTest = useCallback(() => {
     setTimeOver(false);
@@ -113,7 +90,10 @@ export default function TypingTest() {
       {timeOver ? (
         <TestResults {...stats} retakeTest={retakeTest} />
       ) : (
-        <TestSetupForm onStartTest={handleStartTest} />
+        <TestSetupForm
+          onStartTest={handleStartTest}
+          difficulties={availableDifficulties}
+        />
       )}
     </>
   );

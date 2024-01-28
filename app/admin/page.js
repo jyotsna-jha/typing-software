@@ -75,7 +75,7 @@ const AdminPage = () => {
             </p>
           </a>
           <a
-            href="addenglishtext"
+            href="addhinditext"
             className="block bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300"
           >
             <h2 className="text-xl font-semibold mb-2">Add Hindi Text</h2>
