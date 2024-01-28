@@ -4,12 +4,12 @@ import React, { useState } from "react";
 const TestSetupForm1 = ({ onStartTest, difficulties }) => {
   const [userName, setUserName] = useState("");
   const [duration, setDuration] = useState(60); // Default duration to 60 seconds
-  const [difficulty, setDifficulty] = useState(difficulties?.[0]);
+  const [difficulty, setDifficulty] = useState(difficulties?.[0] || "easy");
   const [enableHighlight, setEnableHighlight] = useState(true);
+
   const handleStartTest = (e) => {
     e.preventDefault();
-    console.log("Submitting with difficulty:", difficulty);
-    onStartTest(duration, difficulty, userName, enableHighlight); // Use the callback to pass the values to the parent component
+    onStartTest(duration, difficulty, userName, enableHighlight);
   };
 
   return (
@@ -61,18 +61,26 @@ const TestSetupForm1 = ({ onStartTest, difficulties }) => {
             <label className="block font-medium text-[#222f3e]">
               Select Category:
             </label>
-            <select
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value)}
-              className="w-full border border-gray-300 rounded p-2 text-sm sm:text-base text-[#8395a7]"
-            >
-              {difficulties.map((diff) => (
-                <option key={diff} value={diff}>
-                  {diff.charAt(0).toUpperCase() + diff.slice(1)}
-                </option>
-              ))}
-            </select>
+            {difficulties?.map((diff) => (
+              <label
+                key={diff}
+                htmlFor={diff}
+                className="text-[#8395a7] text-sm sm:text-base"
+              >
+                <input
+                  type="radio"
+                  id={diff}
+                  name="difficulty"
+                  value={diff}
+                  checked={difficulty === diff}
+                  onChange={() => setDifficulty(diff)}
+                  className="mr-2"
+                />
+                {diff.charAt(0).toUpperCase() + diff.slice(1)}
+              </label>
+            ))}
           </div>
+
           <div className="mb-4">
             <label
               htmlFor="enableHighlight"
@@ -88,6 +96,7 @@ const TestSetupForm1 = ({ onStartTest, difficulties }) => {
               Enable Highlight
             </label>
           </div>
+
           <button
             type="submit"
             className="bg-red-400 text-white rounded p-4 cursor-pointer w-full hover:scale-105 transform transition-transform duration-200"
