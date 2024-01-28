@@ -32,7 +32,10 @@ function Navbar() {
                 activeDropdown === "typing" ? "block" : "hidden"
               }`}
             >
-              <a href="/hinditypingtest" className="block  py-1  hover:text-[#e74c3c]">
+              <a
+                href="/hinditypingtest"
+                className="block  py-1  hover:text-[#e74c3c]"
+              >
                 <span className="text-xs mr-2 bold">→</span>
                 Hindi Typing Test
               </a>
@@ -90,7 +93,10 @@ function Navbar() {
             </button>
             {activeDropdown === "typing" && (
               <div className="py-2 px-4 bg-white text-gray-900">
-                <a href="/hinditypingtest" className="block py-1 hover:text-[#e74c3c]">
+                <a
+                  href="/hinditypingtest"
+                  className="block py-1 hover:text-[#e74c3c]"
+                >
                   <span className="text-xs mr-2 bold">→</span>
                   Hindi Typing Test
                 </a>
@@ -101,7 +107,10 @@ function Navbar() {
                   <span className="text-xs mr-2 bold">→</span>
                   English Typing Test
                 </a>
-                <a href="/mangaltypingtest" className="block py-1 hover:text-[#e74c3c]">
+                <a
+                  href="/mangaltypingtest"
+                  className="block py-1 hover:text-[#e74c3c]"
+                >
                   <span className="text-xs mr-2 bold">→</span>
                   Mangla Typing Test
                 </a>
@@ -138,10 +147,10 @@ function Navbar() {
           <a href="/translations" className="block py-2 px-4">
             Translator
           </a>
-          <a href="#" className="block py-2 px-4">
+          <a href="/mcqtest" className="block py-2 px-4">
             Test
           </a>
-          <a href="#" className="block py-2 px-4">
+          <a href="/downloads" className="block py-2 px-4">
             Downloads
           </a>
         </div>
