@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 
 const TestResults1 = ({
@@ -12,15 +12,13 @@ const TestResults1 = ({
   wrongWords,
   wrongWordsCount,
   backspaceCount,
-}) => 
-  {
-    console.log("Correct Words:", correctWords);
-    console.log("Wrong Words:", wrongWords);
+}) => {
+  console.log("Correct Words:", correctWords);
+  console.log("Wrong Words:", wrongWords);
   return (
     <div className="p-4 md:w-1/2 mx-auto my-12 w-11/12 shadow-md rounded-sm">
-      <div className="text-center text-red-400 text-3xl font-bold mb-4"
-      >
-Hindi Mangal Test Results       
+      <div className="text-center text-red-400 text-3xl font-bold mb-4">
+        Hindi Mangal Test Results
       </div>
       <div className="border-b border-[#757d85] mb-4"></div>
       <table className="w-full">
@@ -38,14 +36,16 @@ Hindi Mangal Test Results
             <td className="text-[#222f3e] p-2 text-xl">{wrongWordsCount}</td>
           </tr>
           <tr>
-            <td className="text-[#222f3e] p-2 text-xl">Number of backspace pressed</td>
+            <td className="text-[#222f3e] p-2 text-xl">
+              Number of backspace pressed
+            </td>
             <td className="text-[#222f3e] p-2 text-xl">{backspaceCount}</td>
           </tr>
           <tr>
             <td className="text-[#222f3e] p-2 text-xl">Accuracy:</td>
             <td className="text-[#222f3e] p-2 text-xl">{accuracy}%</td>
           </tr>
-          
+
           <tr>
             <td className="text-[#222f3e] p-2 text-xl">Gross Speed:</td>
             <td className="text-[#222f3e] p-2 text-xl">{grossSpeed} WPM</td>
@@ -71,12 +71,19 @@ Hindi Mangal Test Results
             ))}
           </table>
         </div>
-        <h1 className="text-xl font-bold text-[#222f3e] mb-2">Wrong Words:</h1>
+        <h2 className="text-xl font-bold text-[#222f3e] mb-2">
+          Wrong Words with their respective correct words:
+        </h2>
         <div className="overflow-auto max-h-48">
           <table className="w-full">
-            {wrongWords.map((word, index) => (
+            {wrongWords.map((wordPair, index) => (
               <tr key={index}>
-                <td className="border px-4 py-2 text-xl">{word}</td>
+                <td className="border px-4 py-2 text-red-500">
+                  {wordPair.typed}
+                </td>
+                <td className="border px-4 py-2 text-green-500">
+                  {wordPair.correct}
+                </td>
               </tr>
             ))}
           </table>

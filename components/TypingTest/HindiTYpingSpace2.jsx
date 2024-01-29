@@ -19,7 +19,6 @@ const HindiTypingSpace = ({
   const [endTime, setEndTime] = useState(null);
   const words = sampleText.split(" ");
 
-
   const autoScroll = () => {
     const textArea = textAreaRef.current;
     const linesCompleted = (textArea.value.match(/\n/g) || []).length + 1;
@@ -102,10 +101,7 @@ const HindiTypingSpace = ({
       console.log("Wrong word:", typedWord);
     }
 
-    if (
-      currentWord === typedWord &&
-      highlightedWordIndex < words.length - 1
-    ) {
+    if (currentWord === typedWord && highlightedWordIndex < words.length - 1) {
       setHighlightedWordIndex((prevIndex) => prevIndex + 1);
     } else if (
       highlightedWordIndex === words.length - 1 &&
@@ -117,52 +113,43 @@ const HindiTypingSpace = ({
   };
 
   useEffect(() => {
-    /*  if (timeLeft === 0) {
-      const userWords = userInput.trim().split(/\s+/);
-      let correctWords = [];
-      userWords.forEach((word, idx) => {
-        if (word === words[idx]) {
-          correctWords.push(word);
-        }
-      }); */
-
     if (timeLeft === 0) {
-      const userWords = userInput.trim().split(/\s+/);
-      let correctWords = [];
-      let wrongWords = [];
-      userWords.forEach((word, idx) => {
-        if (word === words[idx]) {
-          correctWords.push(word);
-        } else {
-          wrongWords.push(word);
-        }
-      });
-      const totalWords = userWords.length;
-      const correctWordsCount = correctWords.length;
-      const wrongWordsCount = totalWords - correctWordsCount;
-      const accuracy = Math.floor((correctWordsCount / totalWords) * 100);
-      const timeTakenInMinutes = (timeLimit - timeLeft) / 60;
-      const grossSpeed = Math.floor(totalWords / timeTakenInMinutes);
-      const errorsPerMinute =
-        (totalWords - correctWordsCount) / timeTakenInMinutes;
-      const netSpeed = Math.floor(grossSpeed - errorsPerMinute);
-      onTestComplete(
-        totalWords,
-        correctWordsCount,
-        wrongWordsCount,
-        accuracy,
-        grossSpeed,
-        netSpeed,
-        correctWords,
-        wrongWords,
-        backspaceCount,
-
-        []
-      );
+      completeTest();
     }
-  }, [timeLeft, userInput, onTestComplete, words, timeLimit]);
+  }, [timeLeft]);
 
+  const completeTest = () => {
+    const userWords = userInput.trim().split(/\s+/);
+    let correctWords = [];
+    let wrongWords = [];
+    userWords.forEach((word, idx) => {
+      if (word === words[idx]) {
+        correctWords.push(word);
+      } else {
+        wrongWords.push({ typed: word, correct: words[idx] });
+      }
+    });
+    const totalWords = userWords.length;
+    const correctWordsCount = correctWords.length;
+    const wrongWordsCount = totalWords - correctWordsCount;
+    const accuracy = Math.floor((correctWordsCount / totalWords) * 100);
+    const timeTakenInMinutes = (timeLimit - timeLeft) / 60;
+    const grossSpeed = Math.floor(totalWords / timeTakenInMinutes);
+    const errorsPerMinute = wrongWordsCount / timeTakenInMinutes;
+    const netSpeed = Math.floor(grossSpeed - errorsPerMinute);
 
+    onTestComplete(
+      totalWords,
+      correctWordsCount,
+      wrongWordsCount,
+      accuracy,
+      grossSpeed,
+      netSpeed,
+      correctWords,
+      wrongWords,
+      backspaceCount
+    );
+  };
   return (
     <div className="w-full max-w-screen-lg mx-auto p-4 relative">
       <div className="text-center py-4">
@@ -196,9 +183,15 @@ const HindiTypingSpace = ({
           value={userInput}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          style={{ fontFamily: 'hindi', fontSize: '30px' }} 
+          style={{ fontFamily: "hindi", fontSize: "30px" }}
         />
       </div>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+        onClick={completeTest}
+      >
+        Submit Test
+      </button>
     </div>
   );
 };

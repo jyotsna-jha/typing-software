@@ -59,7 +59,7 @@ const TestSetupForm1 = ({ onStartTest }) => {
 
           <div className="mb-4">
             <label className="block font-medium text-[#222f3e]">
-              Select Difficulty Level:
+              Select Categories:
             </label>
             <div className="flex flex-col">
               <label
@@ -75,7 +75,7 @@ const TestSetupForm1 = ({ onStartTest }) => {
                   onChange={() => setDifficulty("easy")}
                   className="mr-2"
                 />
-                Easy
+                Science
               </label>
               <label
                 htmlFor="medium"
@@ -90,7 +90,7 @@ const TestSetupForm1 = ({ onStartTest }) => {
                   onChange={() => setDifficulty("medium")}
                   className="mr-2"
                 />
-                Medium
+                Literature
               </label>
               <label
                 htmlFor="hard"
@@ -105,7 +105,7 @@ const TestSetupForm1 = ({ onStartTest }) => {
                   onChange={() => setDifficulty("hard")}
                   className="mr-2"
                 />
-                Hard
+                Social
               </label>
             </div>
           </div>
@@ -148,7 +148,7 @@ const TestSetupForm1 = ({ onStartTest }) => {
           To initiate the test, click on the box where "Time will start once you start typing" is indicated. This action will prompt you to begin typing the highlighted words, allowing for an assessment of your typing proficiency in Hindi.
           `}
       />
-      <TestPage2/>
+      <TestPage2 />
     </>
   );
 };

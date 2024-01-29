@@ -62,11 +62,31 @@ export default function TypingTest() {
     [texts]
   );
 
-  const handleTestComplete = useCallback((testStats) => {
-    setStats(testStats);
+  const handleTestComplete = (
+    totalWords,
+    correctWordsCount,
+    wrongWordsCount,
+    accuracy,
+    grossSpeed,
+    netSpeed,
+    correctWords,
+    wrongWords,
+    backspaceCount
+  ) => {
+    setStats({
+      totalWords,
+      correctWordsCount,
+      wrongWordsCount,
+      accuracy,
+      grossSpeed,
+      netSpeed,
+      correctWords,
+      wrongWords,
+      backspaceCount,
+    });
     setTimeOver(true);
     setStartTest(false);
-  }, []);
+  };
 
   const retakeTest = useCallback(() => {
     setTimeOver(false);
