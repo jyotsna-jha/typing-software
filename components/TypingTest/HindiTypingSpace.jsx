@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaHourglassStart } from "react-icons/fa";
 import characterMapping from "./characterMapping";
-import TextHighlighter from "./TextHighlighter1";
+import TextHighlighter from "./TextHighlighter";
 
 const HindiTypingSpace = ({
   sampleText,
@@ -154,6 +154,7 @@ const HindiTypingSpace = ({
     "\u003D": "=",
     "\u0060": "`",
     "\u0084": '"',
+    "_":".",
   };
 
   const handleKeyDown = (e) => {
@@ -185,9 +186,9 @@ const HindiTypingSpace = ({
 
         ",",
         "\\",
-        "<",
-        ">",
-        "_",
+        /*  "<",
+        ">", */
+        /* "_", */
 
         "\u003D",
         "=",
@@ -233,16 +234,16 @@ const HindiTypingSpace = ({
     } else if (e.key === "\\") {
       setUserInput((prev) => prev + ")");
       lastKeyPressed.current = "\\";
-    } else if (e.key === "<") {
+    } /* else if (e.key === "<") {
       setUserInput((prev) => prev + "ढ");
       lastKeyPressed.current = "<";
-    } else if (e.key === ">") {
+    } */ /* else if (e.key === ">") {
       setUserInput((prev) => prev + "झ");
       lastKeyPressed.current = ">";
-    } else if (e.key === "_") {
+    }  */ /* else if (e.key === "_") {
       setUserInput((prev) => prev + ".");
       lastKeyPressed.current = "_";
-    } else if (e.key === "+") {
+    } */ else if (e.key === "+") {
       setUserInput((prev) => prev + "्");
       lastKeyPressed.current = "+";
     } else if (e.key === "\u002B") {
@@ -319,6 +320,8 @@ const HindiTypingSpace = ({
   const handleInputChange = (e) => {
     if (timeLeft > 0) {
       let inputValue = e.target.value;
+      /* inputValue = inputValue.replace(/w/g, "ू").replace(/a/g, "ं");
+       */
 
       const specialCharacterMapping = {
         "&": '"',
@@ -334,706 +337,668 @@ const HindiTypingSpace = ({
         "\u005C": "\\", // Alt+092 mapped to \
         "\u003A": ":", // Alt+058 mapped to :
         "\u0023": "#",
-        "\u003C": "<", // Alt+060 mapped to <
-        "\u003E": ">", // Alt+062 mapped to >
+        /*  "\u003C": "<", // Alt+060 mapped to <
+        "\u003E": ">",  */ // Alt+062 mapped to >
       };
-
-      if (inputValue.length > 1) {
-        const lastChar = inputValue.slice(-1);
-        const restOfString = inputValue.slice(0, -1);
-
-        if (specialCharacterMapping.hasOwnProperty(lastChar)) {
-          inputValue = restOfString + specialCharacterMapping[lastChar];
-        } else {
-          inputValue = restOfString + lastChar;
-        }
-      } else {
-        if (specialCharacterMapping.hasOwnProperty(inputValue)) {
-          inputValue = specialCharacterMapping[inputValue];
-        }
-      }
-
-      inputValue = inputValue.replace(/w/g, "ू").replace(/a/g, "ं");
-
-      if (
-        [
-          "!",
-          "|",
-          "(",
-          "#",
-          ":",
-          "$",
-          "*",
-          "%",
-          "-",
-
-          "]",
-
-          "&",
-          "}",
-          "\\",
-          "@",
-        ].includes(e.key)
-      ) {
-        inputValue = inputValue.slice(0, -1);
-      }
-
       let newInput = "";
-      let mappedValue = "";
-      let isFPressedLocal = isFPressed;
+      let transformedInput = userInput;
 
       for (let i = 0; i < inputValue.length; i++) {
         const char = inputValue[i];
-
         if (specialCharacterMapping.hasOwnProperty(char)) {
           newInput += char;
-        } else if (char in charactersMapping) {
-          const mappedCharacter = charactersMapping[char];
-          if (char === "Q" && newInput[newInput.length - 1] === "उ") {
-            newInput = newInput.slice(0, -1) + "ऊ";
-          } else if (isIApplied) {
-            setIsIApplied(false);
+        }
+        // If the character is not already mapped, map it
+        else if (!transformedInput.includes(char)) {
+          const mappedChar = characterMapping[char];
+          // Additional checks based on your provided logic
+          if (mappedChar !== undefined) {
+            if (char === "Q" && newInput.endsWith("उ")) {
+              newInput = newInput.slice(0, -1) + "ऊ";
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput[newInput.length - 1] === "अ"
+            ) {
+              newInput = newInput.slice(0, -1) + "आ";
+            } else if (char === "W" && newInput[newInput.length - 1] === "आ") {
+              newInput = newInput.slice(0, -1) + "ऑ";
+            } else if (char === "s" && newInput[newInput.length - 1] === "आ") {
+              newInput = newInput.slice(0, -1) + "ओ ";
+            } else if (char === "S" && newInput[newInput.length - 1] === "आ") {
+              newInput = newInput.slice(0, -1) + "औ";
+            } else if (char === "s" && newInput[newInput.length - 1] === "ए") {
+              newInput = newInput.slice(0, -1) + "ऐ";
+            } else if (char === "ॅ" && inputValue[i + 1] === "ं") {
+              newInput += "ँ";
+              i++;
+            } else if (isIApplied) {
+              setIsIApplied(false);
 
-            if (char === "[" && newInput.endsWith(charactersMapping["f"])) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              if (char === "'" && newInput.endsWith(characterMapping["f"])) {
+                newInput = newInput.slice(0, -characterMapping["f"].length);
+                newInput += characterMapping[`f${char}`] || char;
+              } else if (
+                char === "[" &&
+                newInput.endsWith(characterMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -characterMapping["f"].length);
+                newInput += characterMapping[`f${char}`] || char;
+              } else if (
+                char === "/" &&
+                newInput.endsWith(characterMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -characterMapping["f"].length);
+                newInput += characterMapping[`f${char}`] || char;
+              } else if (
+                char === "?" &&
+                newInput.endsWith(characterMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -characterMapping["f"].length);
+                newInput += characterMapping[`f${char}`] || char;
+              } else if (
+                char === "{" &&
+                newInput.endsWith(characterMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -characterMapping["f"].length);
+                newInput += characterMapping[`f${char}`] || char;
+              } else if (
+                char === "F" &&
+                newInput.endsWith(characterMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -characterMapping["f"].length);
+                newInput += characterMapping[`f${char}`] || char;
+              } else if (
+                char === "." &&
+                newInput.endsWith(characterMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -characterMapping["f"].length);
+                newInput += characterMapping[`f${char}`] || char;
+              } else if (
+                char === "H" &&
+                newInput.endsWith(characterMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -characterMapping["f"].length);
+                newInput += characterMapping[`f${char}`] || char;
+              } else if (
+                char === '"' &&
+                newInput.endsWith(characterMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -characterMapping["f"].length);
+                newInput += characterMapping[`f${char}`] || char;
+              } else if (
+                char === "D" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else if (
+                char === "U" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else if (
+                char === "E" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else if (
+                char === "R" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else if (
+                char === "T" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else if (
+                char === "Y" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else if (
+                char === "I" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else if (
+                char === "O" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else if (
+                char === "P" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else if (
+                char === "X" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else if (
+                char === "C" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else if (
+                char === "L" &&
+                newInput.endsWith(charactersMapping["f"])
+              ) {
+                newInput = newInput.slice(0, -charactersMapping["f"].length);
+                newInput += charactersMapping[`f${char}`] || char;
+              } else {
+                newInput = newInput.slice(0, -1) + mappedChar + "ि";
+              }
             } else if (
-              char === "'" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["f'"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["f'"].length);
+              newInput += characterMapping[`f'${char}`] || char;
             } else if (
-              char === "/" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["f["])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["f["].length);
+              newInput += characterMapping[`f[${char}`] || char;
             } else if (
-              char === '"' &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["f."])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["f."].length);
+              newInput += characterMapping[`f.${char}`] || char;
             } else if (
-              char === "{" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping['f"'])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping['f"'].length);
+              newInput += characterMapping[`f"${char}`] || char;
             } else if (
-              char === "?" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["f/"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["f/"].length);
+              newInput += characterMapping[`f/${char}`] || char;
             } else if (
-              char === "." &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["f?"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["f?"].length);
+              newInput += characterMapping[`f?${char}`] || char;
             } else if (
-              char === "F" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["f{"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["f{"].length);
+              newInput += characterMapping[`f{${char}`] || char;
             } else if (
-              char === "H" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["fF"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["fF"].length);
+              newInput += characterMapping[`fF${char}`] || char;
             } else if (
-              char === "D" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["fH"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["fH"].length);
+              newInput += characterMapping[`fH${char}`] || char;
+            } else if (char === "'") {
+              newInput += characterMapping[char];
             } else if (
-              char === "U" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["'"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["'"].length);
+              newInput += characterMapping[`'${char}`] || char;
             } else if (
-              char === "E" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["'A"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["'A"].length);
+              newInput += characterMapping[`'${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
             } else if (
-              char === "R" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["'k"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["'k"].length);
+              newInput += characterMapping[`'${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
             } else if (
-              char === "T" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["'A"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["'A"].length);
+              newInput += characterMapping[`'${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
             } else if (
-              char === "Y" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["'kA"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["'kA"].length);
+              newInput += characterMapping[`'k${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (char === "/") {
+              newInput += characterMapping[char];
             } else if (
-              char === "I" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["/"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["/"].length);
+              newInput += characterMapping[`/${char}`] || char;
             } else if (
-              char === "O" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["/A"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["/A"].length);
+              newInput += characterMapping[`/${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
             } else if (
-              char === "P" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["/k"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["/k"].length);
+              newInput += characterMapping[`/${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
             } else if (
-              char === "X" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["/A"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["/A"].length);
+              newInput += characterMapping[`/${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
             } else if (
-              char === "C" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["/kA"])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["/kA"].length);
+              newInput += characterMapping[`/k${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (char === "[") {
+              newInput += characterMapping[char];
             } else if (
-              char === "L" &&
-              newInput.endsWith(charactersMapping["f"])
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["["])
             ) {
-              newInput = newInput.slice(0, -charactersMapping["f"].length);
-              newInput += charactersMapping[`f${char}`] || char;
+              newInput = newInput.slice(0, -characterMapping["["].length);
+              newInput += characterMapping[`[${char}`] || char;
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["[A"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["[A"].length);
+              newInput += characterMapping[`[${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["[k"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["[k"].length);
+              newInput += characterMapping[`[${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["[A"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["[A"].length);
+              newInput += characterMapping[`[${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["[kA"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["[kA"].length);
+              newInput += characterMapping[`[k${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (char === "{") {
+              newInput += characterMapping[char];
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["{"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["{"].length);
+              newInput += characterMapping[`{${char}`] || char;
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["{A"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["{A"].length);
+              newInput += characterMapping[`{${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["{k"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["{k"].length);
+              newInput += characterMapping[`{${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["{A"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["{A"].length);
+              newInput += characterMapping[`{${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["{kA"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["{kA"].length);
+              newInput += characterMapping[`{k${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (char === '"') {
+              newInput += characterMapping[char];
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping['"'])
+            ) {
+              newInput = newInput.slice(0, -characterMapping['"'].length);
+              newInput += characterMapping[`"${char}`] || char;
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping['"A'])
+            ) {
+              newInput = newInput.slice(0, -characterMapping['"A'].length);
+              newInput += characterMapping[`"${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping['"k'])
+            ) {
+              newInput = newInput.slice(0, -characterMapping['"k'].length);
+              newInput += characterMapping[`"${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping['"A'])
+            ) {
+              newInput = newInput.slice(0, -characterMapping['"A'].length);
+              newInput += characterMapping[`"${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping['"kA'])
+            ) {
+              newInput = newInput.slice(0, -characterMapping['"kA'].length);
+              newInput += characterMapping[`"k${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (char === "?") {
+              newInput += characterMapping[char];
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["?"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["?"].length);
+              newInput += characterMapping[`?${char}`] || char;
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["?A"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["?A"].length);
+              newInput += characterMapping[`?${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["?k"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["?k"].length);
+              newInput += characterMapping[`?${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["?A"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["?A"].length);
+              newInput += characterMapping[`?${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["?kA"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["?kA"].length);
+              newInput += characterMapping[`?k${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (char === ".") {
+              newInput += characterMapping[char];
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["."])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["."].length);
+              newInput += characterMapping[`.${char}`] || char;
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping[".A"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping[".A"].length);
+              newInput += characterMapping[`.${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping[".k"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping[".k"].length);
+              newInput += characterMapping[`.${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping[".A"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping[".A"].length);
+              newInput += characterMapping[`.${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping[".kA"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping[".kA"].length);
+              newInput += characterMapping[`.k${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (char === "F") {
+              newInput += characterMapping[char];
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["F"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["F"].length);
+              newInput += characterMapping[`F${char}`] || char;
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["FA"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["FA"].length);
+              newInput += characterMapping[`F${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["Fk"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["Fk"].length);
+              newInput += characterMapping[`F${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["FA"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["FA"].length);
+              newInput += characterMapping[`F${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["FkA"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["FkA"].length);
+              newInput += characterMapping[`Fk${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (char === "H") {
+              newInput += characterMapping[char];
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["H"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["H"].length);
+              newInput += characterMapping[`H${char}`] || char;
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["HA"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["HA"].length);
+              newInput += characterMapping[`H${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["Hk"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["Hk"].length);
+              newInput += characterMapping[`H${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["HA"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["HA"].length);
+              newInput += characterMapping[`H${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
+            } else if (
+              (char === "A" || char === "k") &&
+              newInput.endsWith(characterMapping["HkA"])
+            ) {
+              newInput = newInput.slice(0, -characterMapping["HkA"].length);
+              newInput += characterMapping[`Hk${char}`] || char;
+
+              if (char === "A" || char === "k") {
+                newInput += "ा";
+              }
             } else {
-              newInput = newInput.slice(0, -1) + mappedCharacter + "ि";
+              setIsIApplied(char === "f");
+              newInput += mappedChar;
             }
+            /*  transformedInput += mappedChar; */ // Update the transformedInput
           } else {
-            setIsIApplied(char === "f");
-            newInput += mappedCharacter;
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["f["])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["f["].length);
-          newInput += characterMapping[`f[${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["f'"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["f'"].length);
-          newInput += characterMapping[`f'${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["f/"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["f/"].length);
-          newInput += characterMapping[`f/${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping['f"'])
-        ) {
-          newInput = newInput.slice(0, -characterMapping['f"'].length);
-          newInput += characterMapping[`f"${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["f{"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["f{"].length);
-          newInput += characterMapping[`f{${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["f?"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["f?"].length);
-          newInput += characterMapping[`f?${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["f."])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["f."].length);
-          newInput += characterMapping[`f.${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["fF"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["fF"].length);
-          newInput += characterMapping[`fF${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["fH"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["fH"].length);
-          newInput += characterMapping[`fH${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["fD"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["fD"].length);
-          newInput += characterMapping[`fD${char}`] || char;
-        } else if (char === "[") {
-          newInput += characterMapping[char];
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["["])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["["].length);
-          newInput += characterMapping[`[${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["[A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["[A"].length);
-          newInput += characterMapping[`[${char}`] || char;
+            // If the character has already been mapped, keep it as is
 
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["[k"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["[k"].length);
-          newInput += characterMapping[`[${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["[A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["[A"].length);
-          newInput += characterMapping[`[${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["[kA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["[kA"].length);
-          newInput += characterMapping[`[k${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput[newInput.length - 1] === "अ"
-        ) {
-          newInput = newInput.slice(0, -1) + "आ";
-        } else if (char === "W" && newInput[newInput.length - 1] === "आ") {
-          newInput = newInput.slice(0, -1) + "ऑ";
-        } else if (char === "s" && newInput[newInput.length - 1] === "आ") {
-          newInput = newInput.slice(0, -1) + "ओ ";
-        } else if (char === "S" && newInput[newInput.length - 1] === "आ") {
-          newInput = newInput.slice(0, -1) + "औ";
-        } else if (char === "s" && newInput[newInput.length - 1] === "ए") {
-          newInput = newInput.slice(0, -1) + "ऐ";
-        } else if (char === "ॅ" && inputValue[i + 1] === "ं") {
-          newInput += "ँ";
-          i++;
-        } else if (char === "{") {
-          newInput += characterMapping[char];
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["{"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["{"].length);
-          newInput += characterMapping[`{${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["{A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["{A"].length);
-          newInput += characterMapping[`{${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["{k"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["{k"].length);
-          newInput += characterMapping[`{${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["{A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["{A"].length);
-          newInput += characterMapping[`{${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["{kA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["{kA"].length);
-          newInput += characterMapping[`{k${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (char === "'") {
-          newInput += characterMapping[char];
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["'"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["'"].length);
-          newInput += characterMapping[`'${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["'A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["'A"].length);
-          newInput += characterMapping[`'${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["'k"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["'k"].length);
-          newInput += characterMapping[`'${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["'A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["'A"].length);
-          newInput += characterMapping[`'${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["'kA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["'kA"].length);
-          newInput += characterMapping[`'k${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (char === "/") {
-          newInput += characterMapping[char];
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["/"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["/"].length);
-          newInput += charactersMapping[`/${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["/A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["/A"].length);
-          newInput += charactersMapping[`/${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["/k"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["/k"].length);
-          newInput += characterMapping[`/${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["/A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["/A"].length);
-          newInput += charactersMapping[`/${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["/kA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["/kA"].length);
-          newInput += characterMapping[`/k${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (char === "?") {
-          newInput += characterMapping[char];
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["?"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["?"].length);
-          newInput += characterMapping[`?${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["?A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["?A"].length);
-          newInput += characterMapping[`?${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["?k"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["?k"].length);
-          newInput += characterMapping[`?${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["?A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["?A"].length);
-          newInput += characterMapping[`?${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["?kA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["?kA"].length);
-          newInput += characterMapping[`?k${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (char === ".") {
-          newInput += characterMapping[char];
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["."])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["."].length);
-          newInput += characterMapping[`.${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping[".A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping[".A"].length);
-          newInput += characterMapping[`.${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping[".k"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping[".k"].length);
-          newInput += characterMapping[`.${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping[".A"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping[".A"].length);
-          newInput += characterMapping[`.${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping[".kA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping[".kA"].length);
-          newInput += characterMapping[`.k${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (char === "F") {
-          newInput += characterMapping[char];
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["F"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["F"].length);
-          newInput += characterMapping[`F${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["FA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["FA"].length);
-          newInput += characterMapping[`F${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["Fk"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["Fk"].length);
-          newInput += characterMapping[`F${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["FA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["FA"].length);
-          newInput += characterMapping[`F${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["FkA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["FkA"].length);
-          newInput += characterMapping[`Fk${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (char === "H") {
-          newInput += characterMapping[char];
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["H"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["H"].length);
-          newInput += characterMapping[`H${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["HA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["HA"].length);
-          newInput += characterMapping[`H${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["Hk"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["Hk"].length);
-          newInput += characterMapping[`H${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["HA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["HA"].length);
-          newInput += characterMapping[`H${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping["HkA"])
-        ) {
-          newInput = newInput.slice(0, -characterMapping["HkA"].length);
-          newInput += characterMapping[`Hk${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (char === '"') {
-          newInput += characterMapping[char];
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping['"'])
-        ) {
-          newInput = newInput.slice(0, -characterMapping['"'].length);
-          newInput += characterMapping[`"${char}`] || char;
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping['"A'])
-        ) {
-          newInput = newInput.slice(0, -characterMapping['"A'].length);
-          newInput += characterMapping[`"${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping['"k'])
-        ) {
-          newInput = newInput.slice(0, -characterMapping['"k'].length);
-          newInput += characterMapping[`"${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping['"A'])
-        ) {
-          newInput = newInput.slice(0, -characterMapping['"A'].length);
-          newInput += characterMapping[`"${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
-          }
-        } else if (
-          (char === "A" || char === "k") &&
-          newInput.endsWith(characterMapping['"kA'])
-        ) {
-          newInput = newInput.slice(0, -characterMapping['"kA'].length);
-          newInput += characterMapping[`"k${char}`] || char;
-
-          if (char === "A" || char === "k") {
-            newInput += "ा";
+            newInput += char;
           }
         } else {
-          newInput += characterMapping[char] || char;
+          // If the character has already been mapped, keep it as is
+          newInput += char;
         }
       }
 
@@ -1048,16 +1013,6 @@ const HindiTypingSpace = ({
       } else if (!newInput.trim()) {
         setHighlightedWordIndex(0);
       }
-
-      if (debounceTimeout) {
-        clearTimeout(debounceTimeout);
-      }
-
-      const newTimeout = setTimeout(() => {
-        processUserInput(newInput);
-      }, 200);
-
-      setDebounceTimeout(newTimeout);
     }
   };
 
@@ -1093,12 +1048,6 @@ const HindiTypingSpace = ({
       setHighlightedWordIndex(0);
     }
   }, [userInput]);
-
-  useEffect(() => {
-    if (timeLeft === 0) {
-      completeTest();
-    }
-  }, [timeLeft]);
 
   const completeTest = () => {
     const userWords = userInput.trim().split(/\s+/);
