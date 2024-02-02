@@ -1,13 +1,37 @@
-"use client";
-
-import { useState } from "react";
+// Import useState and useEffect from React
+"use client"
+import { useState, useEffect } from "react";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState("");
+  const [isSticky, setIsSticky] = useState(false);
+
+  // Function to handle scrolling and update the isSticky state
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsSticky(true);
+    } else {
+      setIsSticky(false);
+    }
+  };
+
+  // Add an event listener for scroll when the component mounts
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <nav className="md:bg-gray-900 p-4 md:text-white md:border-0 text-md font-[Poppins] bg-white text-gray-900">
+    <nav
+      className={`${
+        isSticky ? "fixed top-0 left-0 right-0 bg-gray-900 z-50" : ""
+      } md:bg-gray-900 p-4 md:text-white md:border-0 text-md font-[Poppins] bg-white text-gray-900`}
+    >
       <div className="container mx-auto flex justify-between items-center">
         <a href="/" className="text-xl font-bold">
           <img src="/assets/logo.png" alt="Logo" className="h-20 w-auto" />
