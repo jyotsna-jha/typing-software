@@ -79,6 +79,7 @@ export default function AddText() {
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              style={{ fontFamily: "hindi", fontSize: "30px" }}
             />
           </div>
           <div>
@@ -94,6 +95,7 @@ export default function AddText() {
               onChange={(e) => setText(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               rows="4"
+              style={{ fontFamily: "hindi", fontSize: "30px" }}
             />
           </div>
           <button

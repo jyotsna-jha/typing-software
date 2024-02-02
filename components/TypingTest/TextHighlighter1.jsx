@@ -7,7 +7,7 @@ function TextHighlighter({ sampleText, userText }) {
 
   useEffect(() => {
     const container = containerRef.current;
-    const lineHeight = 5; // Adjust the multiplier based on your font size and desired speed
+    const lineHeight = 15; // Adjust the multiplier based on your font size and desired speed
     const wordsPerLine = 10; // Adjust based on your layout
 
     // Calculate the line number and word index within that line
