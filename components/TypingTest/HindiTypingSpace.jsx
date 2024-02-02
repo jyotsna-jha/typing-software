@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaHourglassStart } from "react-icons/fa";
 import characterMapping from "./characterMapping";
-import TextHighlighter from "./TextHighlighter";
+import TextHighlighter from "./TextHighlighter1";
 
 const HindiTypingSpace = ({
   sampleText,
@@ -1048,6 +1048,12 @@ const HindiTypingSpace = ({
       setHighlightedWordIndex(0);
     }
   }, [userInput]);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      completeTest();
+    }
+  }, [timeLeft]);
 
   const completeTest = () => {
     const userWords = userInput.trim().split(/\s+/);
