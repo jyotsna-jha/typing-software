@@ -82,7 +82,7 @@ function Navbar() {
           <a href="/translations" className="hover:text-[#e74c3c] py-4">
             Translator
           </a>
-          <a href="#" className="hover:text-[#e74c3c] py-4">
+          <a href="/mcqtest" className="hover:text-[#e74c3c] py-4">
             Test
           </a>
           <a href="/downloads" className="hover:text-[#e74c3c] py-4">
