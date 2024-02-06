@@ -14,18 +14,11 @@ const SocialIcons = ({ Icons }) => {
         style={iconStyle}
         className="text-[#d62976] p-2 cursor-pointer inline-flex items-center rounded-full bg-gray-700 mx-1.5 hover:text-[#e74c3c] hover-bg-[#6ab04c] duration-300"
       />
-      <FaTwitter
+       <FaYoutube
         style={iconStyle}
-        className="p-2 cursor-pointer inline-flex items-center rounded-full bg-gray-700 mx-1.5 hover:text-[#2d98da] hover-bg-[#6ab04c] duration-300"
+        className="text-[#e04949] p-2 cursor-pointer inline-flex items-center rounded-full bg-gray-700 mx-1.5 hover:text-[#e74c3c] hover-bg-[#6ab04c] duration-300"
       />
-      <FaLinkedin
-        style={iconStyle}
-        className="p-2 cursor-pointer inline-flex items-center rounded-full bg-gray-700 mx-1.5 hover:text-[#2d98da] hover-bg-[#6ab04c] duration-300"
-      />
-      <FaFacebook
-        style={iconStyle}
-        className="p-2 cursor-pointer inline-flex items-center rounded-full bg-gray-700 mx-1.5 hover:text-[#2d98da] hover-bg-[#6ab04c] duration-300"
-      />
+    
     </div>
   );
 };
