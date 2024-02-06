@@ -136,7 +136,7 @@ function Navbar() {
                   className="block py-1 hover:text-[#e74c3c]"
                 >
                   <span className="text-xs mr-2 bold">→</span>
-                  Mangla Typing Test
+                  Mangal Typing Test
                 </a>
               </div>
             )}

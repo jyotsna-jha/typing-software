@@ -13,7 +13,7 @@ const HomePage = () => {
     { icon: <FaKeyboard size={30} />, text: "English Typing Test", link: "/englishtypingtest" },
     { icon: <FaKeyboard size={30} />, text: "Hindi Mangal Typing Test", link: "/mangaltypingtest" },
     { icon: <FaLanguage size={30} />, text: "Translator", link: "./translations" },
-    { icon: <FaTasks size={30} />, text: "MCQ Tests", link: "./mcq-tests" },
+    { icon: <FaTasks size={30} />, text: "MCQ Tests", link: "./mcqtest" },
     { icon: <FaDownload size={30} />, text: "Downloads", link: "./downloads" },
   ];
 
